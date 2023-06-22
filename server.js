@@ -7,6 +7,7 @@ mongoose
   .connect(DB_HOST)
   .then(() => {
     app.listen(PORT, () => {
+      console.log("Started at port " + PORT);
       console.log("Database connection successful");
     });
   })

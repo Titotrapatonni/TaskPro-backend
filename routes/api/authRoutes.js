@@ -1,7 +1,7 @@
 const express = require("express");
 const authController = require("../../controllers/authControllers");
 const { registerSchema, loginSchema } = require("../../schemas");
-const { authenticate, validateBody } = require("../../middlewares");
+const { authenticate, validateBody, uploadCloud } = require("../../middlewares");
 
 const router = express.Router();
 
@@ -16,5 +16,8 @@ router.get("/current", authenticate, authController.getCurrent);
 
 //! logOut routes
 router.post("/logout", authenticate, authController.logout);
+
+
+router.post("/upload", authenticate, uploadCloud.single("image"), authController.fontsCloud);
 
 module.exports = router;

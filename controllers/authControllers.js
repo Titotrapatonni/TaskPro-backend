@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 const { HttpError } = require("../helpers");
 const { controllerWrapper } = require("../decorators");
 
+
 const { SECRET_KEY } = process.env;
 
 const register = async (req, res) => {
@@ -67,9 +68,20 @@ const logout = async (req, res) => {
   res.status(204).json();
 };
 
+const fontsCloud = async (req, res) => {
+  const fileStr = req.file.path;
+  const upload = await cloudinary.v2.uploader.upload(fileStr, {
+    upload_preset: 'DesktopFonts',});
+  return res.json({
+    success: true,
+    file: upload.secure_url,
+  });
+}
+
 module.exports = {
   register: controllerWrapper(register),
   login: controllerWrapper(login),
   getCurrent: controllerWrapper(getCurrent),
   logout: controllerWrapper(logout),
+  fontsCloud: controllerWrapper(fontsCloud),
 };

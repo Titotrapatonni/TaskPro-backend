@@ -5,6 +5,7 @@ require("dotenv").config();
 
 const authRouter = require("./routes/api/authRoutes");
 const taskRouter = require("./routes/api/tasksRouter");
+const helperRouter = require("./routes/api/helpRouter");
 
 const app = express();
 
@@ -15,6 +16,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/users", authRouter);
+app.use("/api/help", helperRouter);
 app.use("/api/tasks", taskRouter);
 
 app.use((_, res) => {

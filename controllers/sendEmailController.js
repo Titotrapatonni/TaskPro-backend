@@ -6,7 +6,6 @@ const { SUPPORT_EMAIL } = process.env;
 const sendEmailMessage = async (req, res, next) => {
   const { replyEmail, comment } = req.body;
   const { email: userEmail } = req.user;
-  console.log(userEmail, replyEmail, comment);
 
   const verifyEmail = {
     to: SUPPORT_EMAIL,

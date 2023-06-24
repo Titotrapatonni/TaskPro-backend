@@ -45,13 +45,18 @@ const login = async (req, res) => {
       name: user.name,
       email: user.email,
       avatarURL: user.avatarURL,
+      theme: user.theme,
     },
   });
 };
 
 const getCurrent = async (req, res) => {
-  const { email } = req.user;
+  const { email } = req.body;
   const user = await User.findOne({ email });
+  if (!user) {
+    throw HttpError(401, "User not found");
+  }
+
   res.status(200).json({
     name: user.name,
     email: user.email,

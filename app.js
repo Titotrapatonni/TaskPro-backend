@@ -4,6 +4,7 @@ const cors = require("cors");
 require("dotenv").config();
 
 const authRouter = require("./routes/api/authRoutes");
+const boardsRouter = require("./routes/api/boardsRouter");
 const taskRouter = require("./routes/api/tasksRouter");
 
 const app = express();
@@ -15,6 +16,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/users", authRouter);
+app.use("/api/boards", boardsRouter);
 app.use("/api/tasks", taskRouter);
 
 app.use((_, res) => {

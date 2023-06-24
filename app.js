@@ -6,6 +6,7 @@ require("dotenv").config();
 const authRouter = require("./routes/api/authRoutes");
 const taskRouter = require("./routes/api/tasksRouter");
 const helperRouter = require("./routes/api/helpRouter");
+const backgroundRouter = require("./routes/api/backgroundRouter");
 
 const app = express();
 
@@ -18,6 +19,7 @@ app.use(express.json());
 app.use("/users", authRouter);
 app.use("/api/help", helperRouter);
 app.use("/api/tasks", taskRouter);
+app.use("/api/background", backgroundRouter);
 
 app.use((_, res) => {
   res.status(404).json({ message: "Not found" });

@@ -3,7 +3,8 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { HttpError } = require("../helpers");
 const { controllerWrapper } = require("../decorators");
-
+const cloudinary = require("cloudinary").v2; 
+// const {uploader} = require("../middlewares");
 
 const { SECRET_KEY } = process.env;
 
@@ -68,13 +69,14 @@ const logout = async (req, res) => {
   res.status(204).json();
 };
 
-const fontsCloud = async (req, res) => {
+const avatarsCloud = async (req, res) => {
   const fileStr = req.file.path;
   const upload = await cloudinary.v2.uploader.upload(fileStr, {
-    upload_preset: 'DesktopFonts',});
+    upload_preset: 'avatars', }) 
+    const avatarURL = upload.secure_url
   return res.json({
     success: true,
-    file: upload.secure_url,
+    avatarURL,
   });
 }
 
@@ -83,5 +85,5 @@ module.exports = {
   login: controllerWrapper(login),
   getCurrent: controllerWrapper(getCurrent),
   logout: controllerWrapper(logout),
-  fontsCloud: controllerWrapper(fontsCloud),
+  avatarsCloud: controllerWrapper(avatarsCloud),
 };

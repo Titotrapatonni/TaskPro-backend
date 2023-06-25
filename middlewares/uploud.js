@@ -11,15 +11,20 @@ cloudinary.config({
   api_secret: CLOUDINARY_SECRET,
 });
 
-const storage = new CloudinaryStorage({  
-  folder: "DesktopFonts",
+const storage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  Location: "avatars",
+  upload_preset: "avatars",
   allowedFormats: ["jpg", "png"],
-  filename: (req, file, cb) => { 
+  filename: (req, file, cb) => {
     cb(null, file.originalname);
   },
 });
 
-const uploadCloud = multer({ storage: storage });
 
-module.exports = uploadCloud;
+
+const uploader = multer({ storage: storage });
+// module.exports = { cloudinary };
+module.exports = uploader;
+
 

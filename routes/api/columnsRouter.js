@@ -1,5 +1,5 @@
 const express = require("express");
-const columnsController = require("../../controllers/boardsController");
+const columnsController = require("../../controllers/columnsController");
 const { authenticate } = require("../../middlewares");
 
 const router = express.Router();

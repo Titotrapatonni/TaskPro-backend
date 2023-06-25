@@ -5,18 +5,16 @@ const columnSchema = new Schema(
   {
     title: {
       type: String,
-      default: "New Board",
+      default: "New Column",
     },
-    owner: {
-      type: Schema.Types.ObjectId,
-      ref: "board",
-    },
+    boards: [{ type: Schema.Types.ObjectId, ref: "board" }],
+    owner: { type: Schema.Types.ObjectId, ref: "user" },
   },
   { versionKey: false }
 );
 
 columnSchema.post("save", handleMongooseError);
 
-const Column = model("board", columnSchema);
+const Column = model("column", columnSchema);
 
 module.exports = Column;

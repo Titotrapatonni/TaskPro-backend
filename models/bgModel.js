@@ -1,29 +1,30 @@
 const { Schema, model } = require("mongoose");
 const { handleMongooseError } = require("../helpers");
 
-const bgSchema = new Schema(
+const backgroundSchema = new Schema(
   {
     desktopURL: {
       type: String,
-      default:
-        "https://res.cloudinary.com/duvou6od6/image/upload/v1685968257/647a2061cd59e2bc6ce192e3.png",
+      required: [true, "desktopURL is required"],
+    },
+    retinaURL: {
+      type: String,
+      required: [true, "retinaURL is required"],
     },
     tabletURL: {
       type: String,
-      default:
-        "https://res.cloudinary.com/duvou6od6/image/upload/v1685961103/cld-sample-3.jpg",
+      required: [true, " tabletURL is required"],
     },
     mobileURL: {
       type: String,
-      default:
-        "https://res.cloudinary.com/duvou6od6/image/upload/v1685961104/cld-sample-4.jpg",
+      required: [true, "mobileURL is required"],
     },
   },
   { versionKey: false }
 );
 
-bgSchema.post("save", handleMongooseError);
+backgroundSchema.post("save", handleMongooseError);
 
-const Background = model("backgrounds", bgSchema);
+const Background = model("background", backgroundSchema);
 
 module.exports = Background;

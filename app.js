@@ -19,7 +19,7 @@ app.use(express.json());
 app.use("/users", authRouter);
 app.use("/api/help", helperRouter);
 app.use("/api/tasks", taskRouter);
-app.use("/api/background", backgroundRouter);
+app.use("/api/backgrounds", backgroundRouter);
 
 app.use((_, res) => {
   res.status(404).json({ message: "Not found" });

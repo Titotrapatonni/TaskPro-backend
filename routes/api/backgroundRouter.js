@@ -6,6 +6,6 @@ const router = express.Router();
 
 router.use(authenticate);
 
-router.get("/", getBgController.getURL);
+router.get("/", getBgController.getBackgroundURL);
 
 module.exports = router;

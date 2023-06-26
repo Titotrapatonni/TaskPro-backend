@@ -7,8 +7,8 @@ const columnSchema = new Schema(
       type: String,
       default: "New Column",
     },
-    boards: [{ type: Schema.Types.ObjectId, ref: "board" }],
-    owner: { type: Schema.Types.ObjectId, ref: "user" },
+    board: { type: Schema.Types.ObjectId, ref: "board" },
+    // owner: { type: Schema.Types.ObjectId, ref: "user" },
   },
   { versionKey: false }
 );

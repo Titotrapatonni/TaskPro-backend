@@ -6,7 +6,7 @@ const getAllBoards = async (req, res) => {
   const { _id: owner } = req.user;
   const result = await Board.find({ owner }).populate(
     "owner",
-    "_id name email"
+    "_id name email avatarURL theme"
   );
   res.json(result);
 };

@@ -7,6 +7,10 @@ const columnSchema = new Schema(
       type: String,
       default: "New Column",
     },
+    parrentBoard: {
+      type: Schema.Types.ObjectId,
+      ref: "board",
+    },
     board: { type: Schema.Types.ObjectId, ref: "board" },
     // owner: { type: Schema.Types.ObjectId, ref: "user" },
   },

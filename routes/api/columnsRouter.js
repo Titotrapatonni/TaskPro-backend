@@ -1,11 +1,22 @@
 const express = require("express");
 const columnsController = require("../../controllers/columnsController");
-const { authenticate } = require("../../middlewares");
+const { authenticate, validateBody } = require("../../middlewares");
+const columnSchema = require("../../schemas/columnSchema");
 
 const router = express.Router();
 
-router.get("/", authenticate, columnsController.getAllColumns);
+router.get(
+  "/",
+  authenticate,
+  validateBody(columnSchema),
+  columnsController.getAllColumns
+);
 
-router.post("/", authenticate, columnsController.addColumn);
+router.post(
+  "/",
+  authenticate,
+  validateBody(columnSchema),
+  columnsController.addColumn
+);
 
 module.exports = router;

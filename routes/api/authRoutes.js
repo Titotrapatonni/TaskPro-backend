@@ -6,7 +6,7 @@ const {
   loginSchema,
   updateThemeSchema,
 } = require("../../schemas");
-const { authenticate, validateBody } = require("../../middlewares");
+const { authenticate, validateBody, uploader } = require("../../middlewares");
 
 const router = express.Router();
 
@@ -24,5 +24,7 @@ router.patch(
   validateBody(updateThemeSchema),
   themeController.changeTheme
 );
+
+router.post("/upload", authenticate, uploader.single("file"), authController.avatarsCloud);
 
 module.exports = router;

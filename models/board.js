@@ -8,6 +8,7 @@ const boardSchema = new Schema(
       default: "New Board",
     },
     currentBg: { type: Number, default: null },
+    icon: { type: String, default: null },
     owner: {
       type: Schema.Types.ObjectId,
       ref: "user",

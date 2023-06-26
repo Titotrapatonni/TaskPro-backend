@@ -7,7 +7,9 @@ const authRouter = require("./routes/api/authRoutes");
 const boardsRouter = require("./routes/api/boardsRouter");
 const taskRouter = require("./routes/api/tasksRouter");
 const helperRouter = require("./routes/api/helpRouter");
+const columnsRouter = require("./routes/api/columnsRouter");
 const backgroundRouter = require("./routes/api/backgroundRouter");
+
 
 const app = express();
 
@@ -19,6 +21,7 @@ app.use(express.json());
 
 app.use("/users", authRouter);
 app.use("/api/boards", boardsRouter);
+app.use("/api/columns", columnsRouter);
 app.use("/api/help", helperRouter);
 app.use("/api/tasks", taskRouter);
 app.use("/api/backgrounds", backgroundRouter);

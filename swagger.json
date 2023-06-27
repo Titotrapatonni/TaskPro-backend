@@ -7,15 +7,12 @@
     "contact": {
       "name": "Code Ninjas",
       "url": "https://github.com/Titotrapatonni/TaskPro-backend"
-    },
-    "license": {
-      "name": "MIT",
-      "url": "https://opensource.org/licenses/MIT"
     }
+   
   },
   "consumes": ["application/json", "multipart/form-data"],
   "produces": ["application/json"],
-  "servers": [{ "url": "http://localhost:3000", "description": "Development" },
+  "servers": [{ "url": "http://localhost:3001", "description": "Development" },
 { "url": "https://task-pro-backend.onrender.com/", "description": "Production" }],
   "tags": [
     {
@@ -345,8 +342,8 @@
         }
       },
       "post": {
-        "tags": ["Boards"],
-        "summary": "Add board",
+        "tags": ["Columns"],
+        "summary": "Add column",
         "parameters": [],
         "requestBody": {
           "description": "Board's object",

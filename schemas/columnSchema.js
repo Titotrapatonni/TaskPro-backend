@@ -1,5 +1,6 @@
 const Joi = require('joi');
 
+
 const getAllSchema = Joi.object({
   parrentBoard: Joi.string()
     .required()

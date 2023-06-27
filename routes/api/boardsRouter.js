@@ -1,12 +1,12 @@
-const express = require("express");
-const boardsController = require("../../controllers/boardsController");
-const { authenticate,validateBody } = require("../../middlewares");
-const boardSchema = require("../../schemas/boardSchema");
+const express = require('express');
+const boardsController = require('../../controllers/boardsController');
+const { authenticate, validateBody } = require('../../middlewares');
+const boardSchema = require('../../schemas/boardSchema');
 
 const router = express.Router();
 
-router.get("/", authenticate, validateBody(boardSchema), boardsController.getAllBoards);
+router.get('/', authenticate, boardsController.getAllBoards);
 
-router.post("/", authenticate, validateBody(boardSchema), boardsController.addBoard);
+router.post('/', authenticate, validateBody(boardSchema), boardsController.addBoard);
 
 module.exports = router;

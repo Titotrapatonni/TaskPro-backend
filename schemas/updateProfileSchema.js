@@ -5,12 +5,7 @@ const updateProfileSchema = Joi.object({
     'any.required': 'missing required Name field',
   }),
   email: Joi.string()
-    .email({
-      minDomainSegments: 2,
-      tlds: {
-        allow: ['com', 'net', 'uk'],
-      },
-    })
+    .email({minDomainSegments: 2})
     .required()
     .messages({
       'any.required': 'missing required email field',

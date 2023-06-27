@@ -1,11 +1,31 @@
-const Joi = require("joi");
+const Joi = require('joi');
 
-const columnSchema = Joi.object({
-  title: Joi.string().required(),
+
+const getAllSchema = Joi.object({
   parrentBoard: Joi.string()
     .required()
     .length(24)
-    .messages({ "any.required": "missing required parrentBoard id" }),
+    .messages({ 'any.required': 'missing required parrentBoard id' }),
 });
 
-module.exports = columnSchema;
+const addSchema = Joi.object({
+  parrentBoard: Joi.string()
+    .required()
+    .length(24)
+    .messages({ 'any.required': 'missing required parrentBoard id' }),
+  title: Joi.string(),
+});
+
+const editSchema = Joi.object({
+  title: Joi.string()
+    .required()
+    .messages({ 'any.required': 'missing required title' }),
+});
+
+const schemas = {
+  getAllSchema,
+  addSchema,
+  editSchema,
+};
+
+module.exports = schemas;

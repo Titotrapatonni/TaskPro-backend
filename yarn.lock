@@ -2804,7 +2804,7 @@ swagger-ui-express@^4.6.3:
   integrity sha512-CDje4PndhTD2HkgyKH3pab+LKspDeB/NhPN2OF1j+piYIamQqBYwAXWESOT1Yju2xFg51bRW9sUng2WxDjzArw==
   dependencies:
     swagger-ui-dist ">=4.11.0"
-
+    
 table@^6.0.4:
   version "6.8.1"
   resolved "https://registry.npmjs.org/table/-/table-6.8.1.tgz"

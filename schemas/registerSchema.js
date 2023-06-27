@@ -5,7 +5,7 @@ const registerSchema = Joi.object({
     /^[A-Za-z0-9!@#$%^&*()-=_+{}\[\]|\\;:'",.<>/?]{2,32}$/
   ),
   email: Joi.string()
-    .email({ minDomainSegments: 2, tlds: { allow: ["com", "net", "uk"] } })
+    .email()
     .required()
     .messages({ "any.required": "missing required email field" }),
   password: Joi.string()

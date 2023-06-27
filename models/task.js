@@ -14,7 +14,6 @@ const taskSchema = new Schema(
     description: {
       type: String,
       default: '',
-      required: true,
     },
     priority: {
       type: String,
@@ -25,7 +24,7 @@ const taskSchema = new Schema(
       type: String,
       match: /^\d{2}-\d{2}-\d{4}$/,
     },
-    // column: { type: Schema.Types.ObjectId, ref: "column" },
+    column: { type: Schema.Types.ObjectId, ref: 'column' },
   },
   { versionKey: false }
 );

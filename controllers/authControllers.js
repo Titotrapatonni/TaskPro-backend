@@ -3,8 +3,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { HttpError } = require("../helpers");
 const { controllerWrapper } = require("../decorators");
-const cloudinary = require("cloudinary").v2; 
-
+const cloudinary = require("cloudinary").v2;
 
 const { SECRET_KEY } = process.env;
 
@@ -16,11 +15,20 @@ const register = async (req, res) => {
   }
   const hashPassword = await bcrypt.hash(password, 10);
   const newUser = await User.create({ ...req.body, password: hashPassword });
+
+  const payload = {
+    id: newUser._id,
+  };
+  const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "24h" });
+  await User.findByIdAndUpdate(newUser._id, { token });
+
   res.status(201).json({
+    token: token,
     user: {
       name: newUser.name,
       email: newUser.email,
       avatarURL: newUser.avatarURL,
+      theme: newUser.theme,
     },
   });
 };
@@ -54,10 +62,6 @@ const login = async (req, res) => {
 
 const getCurrent = async (req, res) => {
   const { name, email, avatarURL, theme } = req.user;
-  // const user = await User.findOne({ email });
-  // if (!user) {
-  //   throw HttpError(401, "User not found");
-  // }
 
   res.status(200).json({
     user: {
@@ -80,14 +84,14 @@ const logout = async (req, res) => {
 const avatarsCloud = async (req, res) => {
   const fileStr = req.file.path;
   const upload = await cloudinary.v2.uploader.upload(fileStr, {
-    upload_preset: 'avatars', }) 
-    const avatarURL = upload.secure_url
+    upload_preset: "avatars",
+  });
+  const avatarURL = upload.secure_url;
   return res.json({
     success: true,
     avatarURL,
   });
-}
-
+};
 
 module.exports = {
   register: controllerWrapper(register),

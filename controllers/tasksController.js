@@ -39,8 +39,8 @@ const addTask = async (req, res) => {
 
 const updateTask = async (req, res) => {
   const{id} = req.params;
-  const {title, description, priority} = req.body;
-  const result = await Task.findByIdAndUpdate(id, {title, description,priority}, {new: true});
+  const {title, description, priority, deadline} = req.body;
+  const result = await Task.findByIdAndUpdate(id, {title, description,priority,deadline}, {new: true});
  if (!result){
   throw HttpError(404, 'Task not found')
  }

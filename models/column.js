@@ -7,7 +7,7 @@ const columnSchema = new Schema(
       type: String,
       default: "New Column",
     },
-    parrentBoard: {
+    parentBoard: {
       type: Schema.Types.ObjectId,
       ref: "board",
     },

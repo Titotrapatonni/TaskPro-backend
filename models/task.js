@@ -7,7 +7,7 @@ const taskSchema = new Schema(
       default: 'New Task',
       required: true,
     },
-    parrentColumn: {
+    parentColumn: {
       type: Schema.Types.ObjectId,
       ref: 'column',
     },

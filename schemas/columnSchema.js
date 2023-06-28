@@ -2,17 +2,17 @@ const Joi = require('joi');
 
 
 const getAllSchema = Joi.object({
-  parrentBoard: Joi.string()
+  parentBoard: Joi.string()
     .required()
     .length(24)
-    .messages({ 'any.required': 'missing required parrentBoard id' }),
+    .messages({ 'any.required': 'missing required parentBoard id' }),
 });
 
 const addSchema = Joi.object({
-  parrentBoard: Joi.string()
+  parentBoard: Joi.string()
     .required()
     .length(24)
-    .messages({ 'any.required': 'missing required parrentBoard id' }),
+    .messages({ 'any.required': 'missing required parentBoard id' }),
   title: Joi.string(),
 });
 

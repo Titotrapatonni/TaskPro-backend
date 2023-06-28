@@ -5,7 +5,6 @@ const { HttpError } = require('../helpers');
 const { controllerWrapper } = require('../decorators');
 const cloudinary = require('cloudinary').v2;
 
-
 const { SECRET_KEY } = process.env;
 
 const register = async (req, res) => {
@@ -20,7 +19,7 @@ const register = async (req, res) => {
   const payload = {
     id: newUser._id,
   };
-  const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "24h" });
+  const token = jwt.sign(payload, SECRET_KEY, { expiresIn: '24h' });
   await User.findByIdAndUpdate(newUser._id, { token });
 
   res.status(201).json({
@@ -94,7 +93,6 @@ const avatarsCloud = async (req, res) => {
   });
 };
 
-
 const updateProfile = async (req, res) => {
   const { _id } = req.user;
   const { password } = req.body;
@@ -109,9 +107,16 @@ const updateProfile = async (req, res) => {
     avatarURL = req.file.path;
   }
   const result = await User.findByIdAndUpdate(_id, { ...req.body, avatarURL, password: hashPassword }, { new: true });
-  res.status(201).json(result);
+  res.status(201).json({
+    token: result.token,
+    user: {
+      name: result.name,
+      email: result.email,
+      avatarURL: result.avatarURL,
+      theme: result.theme,
+    },
+  });
 };
-
 
 module.exports = {
   register: controllerWrapper(register),

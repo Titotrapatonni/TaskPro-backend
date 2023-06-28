@@ -1,9 +1,20 @@
 const Joi = require('joi');
 
-const boardSchema = Joi.object({
+const addBoardSchema = Joi.object({
   title: Joi.string().required().messages({ 'any.required': 'missing required Board title' }),
   currentBg: Joi.number(),
   icon: Joi.string().optional(),
 });
 
-module.exports = boardSchema;
+const editBoardSchema = Joi.object({
+  title: Joi.string().required().messages({ 'any.required': 'missing required Board title' }),
+  currentBg: Joi.number().required(),
+  icon: Joi.string().required().optional(),
+});
+
+const boardSchemas = {
+  addBoardSchema,
+  editBoardSchema,
+};
+
+module.exports = boardSchemas;

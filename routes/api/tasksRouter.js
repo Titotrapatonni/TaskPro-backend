@@ -10,7 +10,7 @@ router.use(authenticate);
 
 router.get('/', validateBody(schemas.getAllSchema), tasksController.getAllTasks);
 router.post('/', validateBody(schemas.addSchema), tasksController.addTask);
-router.put('/:id', emptyBodyError, validateBody(schemas.addSchema), tasksController.updateTask);
+router.put('/:id', emptyBodyError, validateBody(schemas.editTaskSchema), tasksController.updateTask);
 router.delete('/:id', tasksController.deleteTask);
 
 module.exports = router;

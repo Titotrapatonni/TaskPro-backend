@@ -8,8 +8,8 @@ const addBoardSchema = Joi.object({
 
 const editBoardSchema = Joi.object({
   title: Joi.string().required().messages({ 'any.required': 'missing required Board title' }),
-  currentBg: Joi.number(),
-  icon: Joi.string().optional(),
+  currentBg: Joi.number().required(),
+  icon: Joi.string().required().optional(),
 });
 
 const boardSchemas = {

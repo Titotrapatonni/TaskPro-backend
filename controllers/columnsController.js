@@ -4,9 +4,9 @@ const Board = require('../models/board');
 const { HttpError } = require('../helpers');
 
 const getAllColumns = async (req, res) => {
-  const { parrentBoard } = req.body;
+  const { parentBoard } = req.body;
 
-  const result = await Column.find({ parrentBoard }).populate({
+  const result = await Column.find({ parentBoard }).populate({
     path: 'board',
     model: 'board',
     select: 'currentBg title',
@@ -20,9 +20,9 @@ const getAllColumns = async (req, res) => {
   res.json(result);
 };
 const addColumn = async (req, res) => {
-  const { parrentBoard } = req.body;
+  const { parentBoard } = req.body;
 
-  const board = await Board.findById(parrentBoard);
+  const board = await Board.findById(parentBoard);
   const result = await Column.create({ ...req.body, board });
 
   res.status(201).json(result);

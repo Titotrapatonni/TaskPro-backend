@@ -1,11 +1,11 @@
 const Joi = require('joi');
 
 const getAllSchema = Joi.object({
-  parrentColumn: Joi.string().required().length(24).messages({ 'any.required': 'missing required parrentColumn id' }),
+  parentColumn: Joi.string().required().length(24).messages({ 'any.required': 'missing required parentColumn id' }),
 });
 
 const addSchema = Joi.object({
-  parrentColumn: Joi.string().required().length(24).messages({ 'any.required': 'missing required parrentColumn id' }),
+  parentColumn: Joi.string().required().length(24).messages({ 'any.required': 'missing required parentColumn id' }),
   title: Joi.string(),
   description: Joi.string(),
   priority: Joi.string().valid('without', 'low', 'medium', 'high').messages({

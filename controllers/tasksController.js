@@ -4,9 +4,9 @@ const Task = require('../models/task');
 
 const getAllTasks = async (req, res) => {
   // console.log('getAllTasks');
-  const { parrentColumn } = req.body;
+  const { parentColumn } = req.body;
 
-  const result = await Task.find({ parrentColumn }).populate({
+  const result = await Task.find({ parentColumn }).populate({
     path: 'column',
     ref: 'column',
     select: 'title',
@@ -27,9 +27,9 @@ const getAllTasks = async (req, res) => {
 
 const addTask = async (req, res) => {
   // console.log('addTask');
-  const { parrentColumn } = req.body;
+  const { parentColumn } = req.body;
 
-  const column = await Column.findById(parrentColumn);
+  const column = await Column.findById(parentColumn);
   const result = await Task.create({ ...req.body, column });
 
   res.status(201).json(result);

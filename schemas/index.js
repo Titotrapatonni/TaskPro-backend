@@ -3,6 +3,7 @@ const loginSchema = require('./loginSchema');
 const sendEmailSchema = require('./sendEmailSchema');
 const updateThemeSchema = require('./updateThemeSchema');
 const updateProfileSchema = require('./updateProfileSchema');
+const boardSchema = require('./boardSchema');
 
 module.exports = {
   registerSchema,
@@ -10,4 +11,5 @@ module.exports = {
   sendEmailSchema,
   updateThemeSchema,
   updateProfileSchema,
+  boardSchema,
 };

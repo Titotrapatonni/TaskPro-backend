@@ -52,10 +52,10 @@ const deleteColumn = async (req, res) => {
   const parentColumn = id;
   const childrens = await Task.find({ parentColumn });
   if (childrens.length > 0) {
-    childrens.forEach(async child => await Task.deleteMany({ parentColumn }));
+    await Task.deleteMany({ parentColumn });
   }
 
-  res.json({ message: 'Successful removal of a column' });
+  res.status(204).json({ message: `Column with id: ${id} deleted` });
 };
 
 module.exports = {

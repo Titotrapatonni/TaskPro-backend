@@ -1,11 +1,13 @@
-const Board = require('../models/board');
 const { HttpError } = require('../helpers');
 const { controllerWrapper } = require('../decorators');
+const Board = require('../models/board');
 const Column = require('../models/column');
+const Task = require('../models/task');
 
 const getAllBoards = async (req, res) => {
   const { _id: owner } = req.user;
   const result = await Board.find({ owner }).populate('owner', '_id name email avatarURL theme');
+
   res.json(result);
 };
 
@@ -18,7 +20,6 @@ const addBoard = async (req, res) => {
 
 const editBoard = async (req, res) => {
   const { id } = req.params;
-
   const result = await Board.findByIdAndUpdate(id, req.body, { new: true });
   if (!result) {
     throw HttpError(404, `Board with id: ${id} not found`);
@@ -29,7 +30,6 @@ const editBoard = async (req, res) => {
 
 const deleteBoard = async (req, res) => {
   const { id } = req.params;
-
   const result = await Board.findByIdAndRemove(id);
   if (!result) {
     throw HttpError(404, `Board with id: ${id} not found`);
@@ -38,10 +38,11 @@ const deleteBoard = async (req, res) => {
   const parentBoard = id;
   const childrens = await Column.find({ parentBoard });
   if (childrens.length > 0) {
-    childrens.forEach(async child => await Column.deleteMany({ parentBoard }));
+    childrens.forEach(async column => await Task.deleteMany({ parentColumn: column._id }));
+    await Column.deleteMany({ parentBoard });
   }
 
-  res.status(200).json({ message: `Board with id: ${id} deleted` });
+  res.status(204).json({ message: `Board with id: ${id} deleted` });
 };
 
 module.exports = {

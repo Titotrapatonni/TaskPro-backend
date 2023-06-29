@@ -1,6 +1,7 @@
 const Board = require('../models/board');
 const { HttpError } = require('../helpers');
 const { controllerWrapper } = require('../decorators');
+const Column = require('../models/column');
 
 const getAllBoards = async (req, res) => {
   const { _id: owner } = req.user;
@@ -32,6 +33,12 @@ const deleteBoard = async (req, res) => {
   const result = await Board.findByIdAndRemove(id);
   if (!result) {
     throw HttpError(404, `Board with id: ${id} not found`);
+  }
+
+  const parentBoard = id;
+  const childrens = await Column.find({ parentBoard });
+  if (childrens.length > 0) {
+    childrens.forEach(async child => await Column.deleteMany({ parentBoard }));
   }
 
   res.status(200).json({ message: `Board with id: ${id} deleted` });

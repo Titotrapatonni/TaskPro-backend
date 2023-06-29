@@ -2,6 +2,7 @@ const Column = require('../models/column');
 const { controllerWrapper } = require('../decorators');
 const Board = require('../models/board');
 const { HttpError } = require('../helpers');
+const Task = require('../models/task');
 
 const getAllColumns = async (req, res) => {
   const { parentBoard } = req.body;
@@ -46,6 +47,12 @@ const deleteColumn = async (req, res) => {
   const result = await Column.findByIdAndRemove(id);
   if (!result) {
     throw HttpError(404, 'Column not found');
+  }
+
+  const parentColumn = id;
+  const childrens = await Task.find({ parentColumn });
+  if (childrens.length > 0) {
+    childrens.forEach(async child => await Task.deleteMany({ parentColumn }));
   }
 
   res.json({ message: 'Successful removal of a column' });

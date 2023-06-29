@@ -3,7 +3,7 @@
   "info": {
     "version": "2.0.2",
     "title": "Task Pro API docs",
-    "description": "API documentation for Task Pro application",
+    "description": "**API documentation for Task Pro application.** <p>Цей проєкт є веб-додатком особистого кабінету, в якому є можливість створювати свої дошки з задачами. <p>*Головна мета проєкту* полягає в тому, щоб надати можливість користувачам швидко створювати план різних задач та відслідковувати їх виконання. У проєкті передбачено можливість реєстрації користувачів, їх аутентифікації та авторизації. Також, користувачі можуть створювати будь яку кількість дошок під різні цілі. В кожній дошці є можливість створювати колонки за категоріями для поділу робіт, та задачі, яким можна встановлювати рівень пріорітетності та термін дедлайну. Є можливість редагування та видалення. <p>**Функціональні можливості:** <p>- реєстрація та авторизація користувачів; <p>- зміна аватару користувача та теми додатку; <p>- додавання, видалення, коригування та зміна фону дошок користувача;<p>- за допомогою  колонок є можлівість поділу задач на категорії;<p>- додавання, видалення, зміна пріоритетності та терміну дедлайну в задачах. <p>**Стек технологій, що використовується у проєкті:** <p>Node.js - середовище виконання JavaScript на сервері. <p>Express.js - фреймворк для розробки веб-додатків на Node.js. <p>MongoDB - NoSQL база даних. <p>Mongoose - бібліотека для роботи з MongoDB у Node.js. ",
     "contact": {
       "name": "Code Ninjas",
       "url": "https://github.com/Titotrapatonni/TaskPro-backend"
@@ -33,8 +33,8 @@
       "description": "Tasks endpoints"
     },
     {
-      "name": "Background",
-      "description": "Background endpoints"
+      "name": "Backgrounds",
+      "description": "Board's background endpoints"
     },
     {
       "name": "Help",
@@ -368,7 +368,7 @@
         "security": [{ "Bearer": [] }],
 
         "responses": {
-          "200": {
+          "204": {
             "description": "Successful removal of a board",
             "content": {
               "application/json": {
@@ -514,7 +514,7 @@
         "security": [{ "Bearer": [] }],
 
         "responses": {
-          "200": {
+          "204": {
             "description": "Successful removal of a column",
             "content": {
               "application/json": {
@@ -613,6 +613,123 @@
       }
     },
 
+    "/api/tasks/{id}": {
+      "put": {
+        "tags": ["Tasks"],
+        "summary": "Edit task by id",
+        "parameters": [],
+        "requestBody": {
+          "description": "Task's object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EditTaskRequest"
+              }
+            }
+          }
+        },
+        "security": [{ "Bearer": [] }],
+
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EditTaskResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing fields",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized",
+            "content": {}
+          },
+          "404": {
+            "description": "Task not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaskNotFoundResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Tasks"],
+        "summary": "Delete task",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+
+        "responses": {
+          "204": {
+            "description": "Successful removal of a task",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeleteTaskResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized",
+            "content": {}
+          },
+          "404": {
+            "description": "Task not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaskNotFoundResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "/api/backgrounds": {
+      "get": {
+        "tags": ["Backgrounds"],
+        "summary": "Get board's backgrounds",
+        "parameters": [],
+
+        "security": [{ "Bearer": [] }],
+
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetAllBackgroundsResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized",
+            "content": {}
+          }
+        }
+      }
+    },
+
     "/api/help/email": {
       "post": {
         "tags": ["Help"],
@@ -684,6 +801,11 @@
         "type": "object",
 
         "properties": {
+          "token": {
+            "type": "string",
+            "description": "User's token",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NzEwNWI0Yzk3NTI4ZTVkYmY1MDNhZSIsImlhdCI6MTY4NTEzNzEyNiwiZXhwIjoxNjg1MjE5OTI2fQ.yTZiezf2_N8N3SLa2pmI-ZRKXy1J9gg2nH-vGwySbqs"
+          },
           "user": {
             "type": "object",
             "properties": {
@@ -1546,6 +1668,140 @@
                 "description": "Column's owner(board) id",
                 "example": "565f22dda2d8f8537d987456"
               }
+            }
+          }
+        }
+      },
+
+      "EditTaskRequest": {
+        "type": "object",
+        "required": ["title", "description", "priority", "deadline"],
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Task's title",
+            "example": "New task"
+          },
+          "description": {
+            "type": "string",
+            "description": "Task's description",
+            "example": "My task's description"
+          },
+          "priority": {
+            "type": "string",
+            "description": "Task's priority",
+            "enum": ["without", "low", "medium", "high"],
+            "default": "medium",
+            "example": "low"
+          },
+          "deadline": {
+            "type": "string",
+            "format": "date",
+            "description": "Task's deadline",
+            "example": "01-01-1970"
+          }
+        }
+      },
+
+      "EditTaskResponse": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "Task's id",
+            "example": "648f22dda2d8f8537d580812"
+          },
+          "title": {
+            "type": "string",
+            "description": "Task's title",
+            "example": "New task"
+          },
+          "parentColumn": {
+            "type": "string",
+            "description": "Task's owner(column) id",
+            "example": "125f22dda2d8f8537d536948"
+          },
+          "description": {
+            "type": "string",
+            "description": "Task's description",
+            "example": "My task's description"
+          },
+          "priority": {
+            "type": "string",
+            "description": "Task's priority",
+            "enum": ["without", "low", "medium", "high"],
+            "default": "medium",
+            "example": "low"
+          },
+          "column": {
+            "type": "string",
+            "description": "Task's owner(column) id",
+            "example": "125f22dda2d8f8537d536948"
+          },
+          "deadline": {
+            "type": "string",
+            "format": "date",
+            "description": "Task's deadline",
+            "example": "01-01-1970"
+          }
+        }
+      },
+      "TaskNotFoundResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Task not found",
+            "example": "Task not found"
+          }
+        }
+      },
+
+      "DeleteTaskResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Successful removal of a task",
+            "example": "task deleted"
+          }
+        }
+      },
+
+      "GetAllBackgroundsResponse": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "_id": {
+              "type": "string",
+              "description": "Background's id",
+              "example": "64972a45fd234eee115a1774"
+            },
+            "desktopURL": {
+              "type": "string",
+              "description": "Background desktop url",
+              "example": "https://res.cloudinary.com/dof7bcg6j/image/upload/v1687433723/DesktopFonts/diego-ph-wyeapf7Gy-U-unsplash_9_dhpf3b.jpg"
+            },
+            "retinaURL": {
+              "type": "string",
+              "description": "Background retina url",
+              "example": "https://res.cloudinary.com/dof7bcg6j/image/upload/v1687766598/retinaFonts/diego-ph-wyeapf7Gy-U-unsplash_9_hibunu.jpg"
+            },
+            "tabletURL": {
+              "type": "string",
+              "description": "Background tablet url",
+              "example": "https://res.cloudinary.com/dof7bcg6j/image/upload/v1687433952/TabletFonts/diego-ph-wyeapf7Gy-U-unsplash_17_ezodbf.jpg"
+            },
+            "mobileURL": {
+              "type": "string",
+              "description": "Background mobile url",
+              "example": "https://res.cloudinary.com/dof7bcg6j/image/upload/v1687434017/MobFonts/diego-ph-wyeapf7Gy-U-unsplash_32_x73ju7.jpg"
+            },
+            "previewURL": {
+              "type": "string",
+              "description": "Background preview url",
+              "example": "https://res.cloudinary.com/dof7bcg6j/image/upload/v1687942226/DesktopFonts/PRreviewFonts/Vector13_ilcfaz.png"
             }
           }
         }

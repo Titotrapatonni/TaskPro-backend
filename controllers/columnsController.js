@@ -48,7 +48,7 @@ const deleteColumn = async (req, res) => {
     throw HttpError(404, 'Column not found');
   }
 
-  res.json({ message: 'Successful removal of a column' });
+  res.status(204).json({ message: 'Successful removal of a column' });
 };
 
 module.exports = {

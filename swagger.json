@@ -12,8 +12,8 @@
   "consumes": ["application/json", "multipart/form-data"],
   "produces": ["application/json"],
   "servers": [
-    { "url": "http://localhost:3001", "description": "Development" },
-    { "url": "https://task-pro-backend.onrender.com/", "description": "Production" }
+    { "url": "https://task-pro-backend.onrender.com/", "description": "Production" },
+    { "url": "http://localhost:3001", "description": "Development" }
   ],
   "tags": [
     {

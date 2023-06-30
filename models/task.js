@@ -23,6 +23,7 @@ const taskSchema = new Schema(
     deadline: {
       type: String,
       match: /^\d{2}-\d{2}-\d{4}$/,
+      default: null,
     },
     column: { type: Schema.Types.ObjectId, ref: 'column' },
   },

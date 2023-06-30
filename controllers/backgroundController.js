@@ -3,6 +3,7 @@ const { controllerWrapper } = require("../decorators");
 
 const getBackgroundURL = async (req, res) => {
   const result = await Background.find({});
+
   res.json(result);
 };
 

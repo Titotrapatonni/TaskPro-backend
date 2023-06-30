@@ -1,12 +1,15 @@
-const { HttpError } = require('../helpers');
-const { controllerWrapper } = require('../decorators');
-const Board = require('../models/board');
-const Column = require('../models/column');
-const Task = require('../models/task');
+const { HttpError } = require("../helpers");
+const { controllerWrapper } = require("../decorators");
+const Board = require("../models/board");
+const Column = require("../models/column");
+const Task = require("../models/task");
 
 const getAllBoards = async (req, res) => {
   const { _id: owner } = req.user;
-  const result = await Board.find({ owner }).populate('owner', '_id name email avatarURL theme');
+  const result = await Board.find({ owner }).populate(
+    "owner",
+    "_id name email avatarURL theme"
+  );
 
   res.json(result);
 };
@@ -38,7 +41,9 @@ const deleteBoard = async (req, res) => {
   const parentBoard = id;
   const childrens = await Column.find({ parentBoard });
   if (childrens.length > 0) {
-    childrens.forEach(async column => await Task.deleteMany({ parentColumn: column._id }));
+    childrens.forEach(
+      async column => await Task.deleteMany({ parentColumn: column._id })
+    );
     await Column.deleteMany({ parentBoard });
   }
 

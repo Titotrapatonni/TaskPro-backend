@@ -1,16 +1,27 @@
-const express = require('express');
-const boardsController = require('../../controllers/boardsController');
-const { authenticate, validateBody, isValidId } = require('../../middlewares');
-const { boardSchemas } = require('../../schemas');
+const express = require("express");
+const boardsController = require("../../controllers/boardsController");
+const { authenticate, validateBody, isValidId } = require("../../middlewares");
+const { boardSchemas } = require("../../schemas");
 
 const router = express.Router();
 
-router.get('/', authenticate, boardsController.getAllBoards);
+router.use(authenticate);
 
-router.post('/', authenticate, validateBody(boardSchemas.addBoardSchema), boardsController.addBoard);
+router.get("/", boardsController.getAllBoards);
 
-router.put('/:id', authenticate, isValidId, validateBody(boardSchemas.editBoardSchema), boardsController.editBoard);
+router.post(
+  "/",
+  validateBody(boardSchemas.addBoardSchema),
+  boardsController.addBoard
+);
 
-router.delete('/:id', authenticate, isValidId, boardsController.deleteBoard);
+router.put(
+  "/:id",
+  isValidId,
+  validateBody(boardSchemas.editBoardSchema),
+  boardsController.editBoard
+);
+
+router.delete("/:id", isValidId, boardsController.deleteBoard);
 
 module.exports = router;

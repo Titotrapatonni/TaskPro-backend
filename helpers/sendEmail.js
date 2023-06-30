@@ -14,7 +14,7 @@ const configOptions = {
 
 const transport = nodemailer.createTransport(configOptions);
 
-const sendEmail = async (data) => {
+const sendEmail = async data => {
   const email = { ...data, from: UKR_NET_EMAIL };
   await transport.sendMail(email);
   return true;

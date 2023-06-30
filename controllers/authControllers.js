@@ -1,9 +1,9 @@
-const User = require('../models/user');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const { HttpError } = require('../helpers');
-const { controllerWrapper } = require('../decorators');
-const cloudinary = require('cloudinary').v2;
+const User = require("../models/user");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const { HttpError } = require("../helpers");
+const { controllerWrapper } = require("../decorators");
+const cloudinary = require("cloudinary").v2;
 
 const { SECRET_KEY } = process.env;
 
@@ -11,7 +11,7 @@ const register = async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
   if (user) {
-    throw HttpError(409, 'Email in use');
+    throw HttpError(409, "Email in use");
   }
   const hashPassword = await bcrypt.hash(password, 10);
   const newUser = await User.create({ ...req.body, password: hashPassword });
@@ -19,7 +19,7 @@ const register = async (req, res) => {
   const payload = {
     id: newUser._id,
   };
-  const token = jwt.sign(payload, SECRET_KEY, { expiresIn: '24h' });
+  const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "24h" });
   await User.findByIdAndUpdate(newUser._id, { token });
 
   res.status(201).json({
@@ -37,16 +37,17 @@ const login = async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
   if (!user) {
-    throw HttpError(401, 'Email or password is wrong');
+    throw HttpError(401, "Email or password is wrong");
   }
+
   const passwordCompare = await bcrypt.compare(password, user.password);
   if (!passwordCompare) {
-    throw HttpError(401, 'Email or password is wrong');
+    throw HttpError(401, "Email or password is wrong");
   }
   const payload = {
     id: user._id,
   };
-  const token = jwt.sign(payload, SECRET_KEY, { expiresIn: '24h' });
+  const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "24h" });
   await User.findByIdAndUpdate(user._id, { token });
 
   res.status(200).json({
@@ -84,7 +85,7 @@ const logout = async (req, res) => {
 const avatarsCloud = async (req, res) => {
   const fileStr = req.file.path;
   const upload = await cloudinary.v2.uploader.upload(fileStr, {
-    upload_preset: 'avatars',
+    upload_preset: "avatars",
   });
   const avatarURL = upload.secure_url;
   return res.json({
@@ -100,13 +101,20 @@ const updateProfile = async (req, res) => {
   const user = await User.findById(_id);
   let avatarURL = user.avatarURL;
   if (req.file) {
-    if (avatarURL !== '') {
+    if (avatarURL !== "") {
       const urlSliced = avatarURL.slice(62, avatarURL.length - 4);
-      await cloudinary.uploader.destroy(urlSliced, { invalidate: true, resource_type: 'image' });
+      await cloudinary.uploader.destroy(urlSliced, {
+        invalidate: true,
+        resource_type: "image",
+      });
     }
     avatarURL = req.file.path;
   }
-  const result = await User.findByIdAndUpdate(_id, { ...req.body, avatarURL, password: hashPassword }, { new: true });
+  const result = await User.findByIdAndUpdate(
+    _id,
+    { ...req.body, avatarURL, password: hashPassword },
+    { new: true }
+  );
   res.status(201).json({
     token: result.token,
     user: {

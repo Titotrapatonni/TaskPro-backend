@@ -1,20 +1,20 @@
-const Column = require('../models/column');
-const { controllerWrapper } = require('../decorators');
-const Board = require('../models/board');
-const { HttpError } = require('../helpers');
-const Task = require('../models/task');
+const Column = require("../models/column");
+const { controllerWrapper } = require("../decorators");
+const Board = require("../models/board");
+const { HttpError } = require("../helpers");
+const Task = require("../models/task");
 
 const getAllColumns = async (req, res) => {
   const { parentBoard } = req.body;
 
   const result = await Column.find({ parentBoard }).populate({
-    path: 'board',
-    model: 'board',
-    select: 'currentBg title',
+    path: "board",
+    model: "board",
+    select: "currentBg title",
     populate: {
-      path: 'owner',
-      ref: 'owner',
-      select: 'name email avatarURL theme',
+      path: "owner",
+      ref: "owner",
+      select: "name email avatarURL theme",
     },
   });
 
@@ -35,7 +35,7 @@ const editColumn = async (req, res) => {
 
   const result = await Column.findByIdAndUpdate(id, { title }, { new: true });
   if (!result) {
-    throw HttpError(404, 'Column not found');
+    throw HttpError(404, "Column not found");
   }
 
   res.status(201).json(result);
@@ -46,7 +46,7 @@ const deleteColumn = async (req, res) => {
 
   const result = await Column.findByIdAndRemove(id);
   if (!result) {
-    throw HttpError(404, 'Column not found');
+    throw HttpError(404, "Column not found");
   }
 
   const parentColumn = id;

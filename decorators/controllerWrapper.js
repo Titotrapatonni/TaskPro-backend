@@ -1,4 +1,4 @@
-const controllerWrapper = (controller) => {
+const controllerWrapper = controller => {
   const func = async (req, res, next) => {
     try {
       await controller(req, res, next);

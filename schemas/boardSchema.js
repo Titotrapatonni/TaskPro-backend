@@ -2,7 +2,7 @@ const Joi = require('joi');
 
 const addBoardSchema = Joi.object({
   title: Joi.string(),
-  currentBg: Joi.number(),
+  currentBg: Joi.string(),
   icon: Joi.string()
     .valid(
       'icon-hexagon-01',
@@ -22,7 +22,7 @@ const addBoardSchema = Joi.object({
 
 const editBoardSchema = Joi.object({
   title: Joi.string().required().messages({ 'any.required': 'missing required Board title' }),
-  currentBg: Joi.number().required().messages({ 'any.required': 'missing required Board currentBg' }),
+  currentBg: Joi.string().required().messages({ 'any.required': 'missing required Board currentBg' }),
   icon: Joi.string()
     .required()
     .valid(

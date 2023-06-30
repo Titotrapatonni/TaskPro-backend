@@ -2,9 +2,13 @@ const express = require('express');
 const authController = require('../../controllers/authControllers');
 const themeController = require('../../controllers/themeController');
 const { registerSchema, loginSchema, updateThemeSchema, updateProfileSchema } = require('../../schemas');
-const { authenticate, validateBody, uploader } = require('../../middlewares');
+const { authenticate, validateBody, uploader, passport } = require('../../middlewares');
 
 const router = express.Router();
+
+router.get('/google', passport.authenticate('google', { scope: ['email', 'profile'] }));
+
+router.get('/google/callback', passport.authenticate('google', { session: false }), authController.googleAuth);
 
 router.post('/register', validateBody(registerSchema), authController.register);
 

@@ -7,7 +7,7 @@ const boardSchema = new Schema(
       type: String,
       default: 'New Board',
     },
-    currentBg: { type: Number, default: null },
+    currentBg: { type: String, default: '' },
     icon: {
       type: String,
       enum: [

@@ -1,4 +1,4 @@
-const Background = require("../models/bgModel");
+const Background = require("../models/background");
 const { controllerWrapper } = require("../decorators");
 
 const getBackgroundURL = async (req, res) => {

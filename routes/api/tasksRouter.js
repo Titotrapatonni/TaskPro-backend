@@ -1,7 +1,7 @@
 const express = require('express');
 const { authenticate, validateBody } = require('../../middlewares');
 const tasksController = require('../../controllers/tasksController');
-const {emptyBodyError} =require('../../decorators');
+const { emptyBodyError } = require('../../decorators');
 const schemas = require('../../schemas/taskSchema');
 
 const router = express.Router();

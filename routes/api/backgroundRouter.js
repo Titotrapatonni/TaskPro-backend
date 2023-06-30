@@ -1,11 +1,11 @@
-const express = require("express");
-const { authenticate } = require("../../middlewares");
-const getBgController = require("../../controllers/getBgController");
+const express = require('express');
+const { authenticate } = require('../../middlewares');
+const backgroundController = require('../../controllers/backgroundController');
 
 const router = express.Router();
 
 router.use(authenticate);
 
-router.get("/", getBgController.getBackgroundURL);
+router.get('/', backgroundController.getBackgroundURL);
 
 module.exports = router;

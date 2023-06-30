@@ -76,8 +76,7 @@ const getCurrent = async (req, res) => {
 
 const logout = async (req, res) => {
   const { _id } = req.user;
-  console.log(_id);
-  console.log(req.user);
+
   await User.findByIdAndUpdate(_id, { token: null });
   res.status(204).json();
 };
@@ -88,6 +87,7 @@ const avatarsCloud = async (req, res) => {
     upload_preset: "avatars",
   });
   const avatarURL = upload.secure_url;
+
   return res.json({
     success: true,
     avatarURL,

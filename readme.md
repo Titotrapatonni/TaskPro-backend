@@ -2,7 +2,6 @@
 
 [Документація](https://task-pro-backend.onrender.com/api-docs)
 
-# TaskPro Backend API
 Це репозиторій проєкту TaskPro Backend API, який надає [API](https://task-pro-backend.onrender.com/api-docs) для взаємодії з додатком [TaskPro](https://fstv-electro.github.io/TaskPro-prj-9/)
 
 ## Огляд проекту

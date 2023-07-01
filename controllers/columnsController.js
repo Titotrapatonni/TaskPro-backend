@@ -1,30 +1,32 @@
 const Column = require('../models/column');
 const { controllerWrapper } = require('../decorators');
-const Board = require('../models/board');
 const { HttpError } = require('../helpers');
 const Task = require('../models/task');
 
-const getAllColumns = async (req, res) => {
-  const { parentBoard } = req.body;
+const getAllColumnsWithTasks = async (req, res) => {
+  const { id } = req.params;
 
-  const result = await Column.find({ parentBoard }).populate({
-    path: 'board',
-    model: 'board',
-    select: 'currentBg title',
-    populate: {
-      path: 'owner',
-      ref: 'owner',
-      select: 'name email avatarURL theme',
+  const boardData = await Column.aggregate([
+    {
+      $match: {
+        parentBoard: id,
+      },
     },
-  });
+    {
+      $lookup: {
+        from: 'tasks',
+        localField: '_id',
+        foreignField: 'parentColumn',
+        as: 'tasks',
+      },
+    },
+  ]);
 
-  res.json(result);
+  res.json(boardData);
 };
-const addColumn = async (req, res) => {
-  const { parentBoard } = req.body;
 
-  const board = await Board.findById(parentBoard);
-  const result = await Column.create({ ...req.body, board });
+const addColumn = async (req, res) => {
+  const result = await Column.create({ ...req.body });
 
   res.status(201).json(result);
 };
@@ -50,8 +52,8 @@ const deleteColumn = async (req, res) => {
   }
 
   const parentColumn = id;
-  const childrens = await Task.find({ parentColumn });
-  if (childrens.length > 0) {
+  const chlidren = await Task.find({ parentColumn });
+  if (chlidren.length > 0) {
     await Task.deleteMany({ parentColumn });
   }
 
@@ -59,7 +61,7 @@ const deleteColumn = async (req, res) => {
 };
 
 module.exports = {
-  getAllColumns: controllerWrapper(getAllColumns),
+  getAllColumnsWithTasks: controllerWrapper(getAllColumnsWithTasks),
   addColumn: controllerWrapper(addColumn),
   editColumn: controllerWrapper(editColumn),
   deleteColumn: controllerWrapper(deleteColumn),

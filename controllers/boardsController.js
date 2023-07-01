@@ -36,9 +36,9 @@ const deleteBoard = async (req, res) => {
   }
 
   const parentBoard = id;
-  const childrens = await Column.find({ parentBoard });
-  if (childrens.length > 0) {
-    childrens.forEach(async column => await Task.deleteMany({ parentColumn: column._id }));
+  const children = await Column.find({ parentBoard });
+  if (children.length > 0) {
+    children.forEach(async column => await Task.deleteMany({ parentColumn: column._id }));
     await Column.deleteMany({ parentBoard });
   }
 

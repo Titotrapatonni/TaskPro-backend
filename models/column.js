@@ -8,11 +8,9 @@ const columnSchema = new Schema(
       default: 'New Column',
     },
     parentBoard: {
-      type: Schema.Types.ObjectId,
-      ref: 'board',
+      type: String,
+      required: true,
     },
-    board: { type: Schema.Types.ObjectId, ref: 'board' },
-    // owner: { type: Schema.Types.ObjectId, ref: "user" },
   },
   { versionKey: false }
 );

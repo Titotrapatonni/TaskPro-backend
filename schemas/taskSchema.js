@@ -1,9 +1,5 @@
 const Joi = require('joi');
 
-const getAllSchema = Joi.object({
-  parentColumn: Joi.string().required().length(24).messages({ 'any.required': 'missing required parentColumn id' }),
-});
-
 const addSchema = Joi.object({
   parentColumn: Joi.string().required().length(24).messages({ 'any.required': 'missing required parentColumn id' }),
   title: Joi.string(),
@@ -20,13 +16,15 @@ const editTaskSchema = Joi.object({
   priority: Joi.string().required().valid('without', 'low', 'medium', 'high').messages({
     'any.only': "Can be only 'without', 'low', 'medium', 'high'",
   }),
-  deadline: Joi.string().required().regex(/^\d{2}-\d{2}-\d{4}$/),
+  deadline: Joi.string()
+    .required()
+    .regex(/^\d{2}-\d{2}-\d{4}$/),
+  parentColumn: Joi.string().required(),
 });
 
 const schemas = {
-  getAllSchema,
   addSchema,
   editTaskSchema,
- };
+};
 
 module.exports = schemas;

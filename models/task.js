@@ -9,7 +9,8 @@ const taskSchema = new Schema(
     },
     parentColumn: {
       type: Schema.Types.ObjectId,
-      ref: 'column',
+      ref: 'Column',
+      required: true,
     },
     description: {
       type: String,
@@ -25,7 +26,6 @@ const taskSchema = new Schema(
       match: /^\d{2}-\d{2}-\d{4}$/,
       default: null,
     },
-    column: { type: Schema.Types.ObjectId, ref: 'column' },
   },
   { versionKey: false }
 );

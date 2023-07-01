@@ -42,6 +42,34 @@
     }
   ],
   "paths": {
+    "/users/google": {
+      "get": {
+        "tags": ["Auth"],
+        "summary": "User Google registration",
+        "parameters": [],
+        
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {}
+          },
+          "401": {
+            "description": "Email or password is wrong",
+            "content": {}
+          }
+        }
+      }
+    },
     "/users/register": {
       "post": {
         "tags": ["Auth"],
@@ -64,7 +92,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/RegistrationResponse"
+                  "$ref": "#/components/schemas/AuthResponse"
                 }
               }
             }
@@ -115,7 +143,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/LoginResponse"
+                  "$ref": "#/components/schemas/AuthResponse"
                 }
               }
             }
@@ -215,6 +243,51 @@
             "description": "Not authorized",
             "content": {}
           }
+        }
+      }
+    },
+    "/users/update": {
+      "patch": {
+        "tags": ["Auth"],
+        "summary": "Update user's profile",
+        "parameters": [],
+        "requestBody": {
+          "description": "User's profile object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateProfileRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateProfileResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (missing fields)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized",
+            "content": {}
+          }
+          
         }
       }
     },
@@ -395,23 +468,12 @@
         }
       }
     },
-
-    "/api/columns": {
+    "/api/columns/{parentBoard's_id}": {
       "get": {
         "tags": ["Columns"],
-        "summary": "Get all user board's columns",
+        "summary": "Get all board's columns",
         "parameters": [],
-        "requestBody": {
-          "description": "Column's object",
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/GetAllColumnsRequest"
-              }
-            }
-          }
-        },
+        
         "security": [{ "Bearer": [] }],
 
         "responses": {
@@ -430,7 +492,13 @@
             "content": {}
           }
         }
-      },
+      }
+      
+      
+    },
+
+    "/api/columns/": {
+      
       "post": {
         "tags": ["Columns"],
         "summary": "Add column",
@@ -467,6 +535,7 @@
       }
     },
     "/api/columns/{id}": {
+      
       "patch": {
         "tags": ["Columns"],
         "summary": "Edit column by id",
@@ -542,22 +611,12 @@
       }
     },
 
-    "/api/tasks": {
+    "/api/tasks/{parentColumn's_id}": {
       "get": {
         "tags": ["Tasks"],
-        "summary": "Get all user's tasks",
+        "summary": "Get all column's tasks",
         "parameters": [],
-        "requestBody": {
-          "description": "Tasks's object",
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/GetAllTasksRequest"
-              }
-            }
-          }
-        },
+       
         "security": [{ "Bearer": [] }],
 
         "responses": {
@@ -576,7 +635,10 @@
             "content": {}
           }
         }
+      }
+
       },
+      "/api/tasks/":{
       "post": {
         "tags": ["Tasks"],
         "summary": "Add task",
@@ -797,40 +859,7 @@
           }
         }
       },
-      "RegistrationResponse": {
-        "type": "object",
-
-        "properties": {
-          "token": {
-            "type": "string",
-            "description": "User's token",
-            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NzEwNWI0Yzk3NTI4ZTVkYmY1MDNhZSIsImlhdCI6MTY4NTEzNzEyNiwiZXhwIjoxNjg1MjE5OTI2fQ.yTZiezf2_N8N3SLa2pmI-ZRKXy1J9gg2nH-vGwySbqs"
-          },
-          "user": {
-            "type": "object",
-            "properties": {
-              "name": {
-                "type": "string",
-                "description": "User's name",
-                "example": "Andrew"
-              },
-              "email": {
-                "type": "string",
-                "description": "User's email",
-                "format": "email",
-                "example": "Andrew@example.com"
-              },
-              "avatarURL": {
-                "type": "string",
-                "description": "User's avatar URL",
-                "example": "https://i.pinimg.com/originals/b7/34/e9/b734e9d303af5f13994c12d407862658.png"
-              }
-            }
-          }
-        }
-      },
-
-      "LoginResponse": {
+      "AuthResponse": {
         "type": "object",
 
         "properties": {
@@ -867,29 +896,36 @@
           }
         }
       },
+
+      
       "CurrentUserResponse": {
         "type": "object",
         "properties": {
-          "name": {
-            "type": "string",
-            "description": "Current user's name",
-            "example": "Andrew"
-          },
-          "email": {
-            "type": "string",
-            "description": "Current user's email",
-            "format": "email",
-            "example": "Andrew@example.com"
-          },
-          "avatarURL": {
-            "type": "string",
-            "description": "Current user's avatar URL",
-            "example": "https://i.pinimg.com/originals/b7/34/e9/b734e9d303af5f13994c12d407862658.png"
-          },
-          "theme": {
-            "type": "string",
-            "description": "Board's theme",
-            "example": "dark"
+          "user": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "User's name",
+                "example": "Andrew"
+              },
+              "email": {
+                "type": "string",
+                "description": "User's email",
+                "format": "email",
+                "example": "Andrew@example.com"
+              },
+              "avatarURL": {
+                "type": "string",
+                "description": "User's avatar URL",
+                "example": "https://i.pinimg.com/originals/b7/34/e9/b734e9d303af5f13994c12d407862658.png"
+              },
+              "theme": {
+                "type": "string",
+                "description": "Users's theme",
+                "example": "dark"
+              }
+            }
           }
         }
       },
@@ -938,6 +974,76 @@
           }
         }
       },
+
+      
+      "UpdateProfileRequest": {
+        "type": "object",
+        "required": ["name", "email", "password"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "User's name",
+            "example": "Andrew"
+          },
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email",
+            "example": "Andrew@example.com"
+          },
+          "password": {
+            "type": "string",
+            "description": "User's password",
+            "example": "qwerty123"
+          },
+           "avatarURL": {
+            "type": "string",
+            "description": "User's avatar URL",
+            "example": "https://i.pinimg.com/originals/b7/34/e9/b734e9d303af5f13994c12d407862658.png"
+          }
+
+        }
+      },
+
+      
+      "UpdateProfileResponse": {
+        "type": "object",
+
+        "properties": {
+          "token": {
+            "type": "string",
+            "description": "User's token",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NzEwNWI0Yzk3NTI4ZTVkYmY1MDNhZSIsImlhdCI6MTY4NTEzNzEyNiwiZXhwIjoxNjg1MjE5OTI2fQ.yTZiezf2_N8N3SLa2pmI-ZRKXy1J9gg2nH-vGwySbqs"
+          },
+          "user": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "User's name",
+                "example": "Andrew"
+              },
+              "email": {
+                "type": "string",
+                "description": "User's email",
+                "format": "email",
+                "example": "Andrew@example.com"
+              },
+              "avatarURL": {
+                "type": "string",
+                "description": "User's avatar URL",
+                "example": "https://i.pinimg.com/originals/b7/34/e9/b734e9d303af5f13994c12d407862658.png"
+              },
+              "theme": {
+                "type": "string",
+                "description": "Users's theme",
+                "example": "dark"
+              }
+            }
+          }
+        }
+      },
+
       "UploadAvatarRequest": {
         "type": "object",
 
@@ -1016,6 +1122,21 @@
         "items": {
           "type": "object",
           "properties": {
+            "_id": {
+              "type": "string",
+              "description": "Board's id",
+              "example": "648f22dda2d8f8537d580812"
+            },
+            "title": {
+              "type": "string",
+              "description": "Board's title",
+              "example": "New Board"
+            },
+            "currentBg": {
+              "type": "number",
+              "description": "Board's backgound color",
+              "example": "2"
+            },
             "icon": {
               "type": "number",
               "description": "Board's icon",
@@ -1032,21 +1153,7 @@
               "default": "icon-Project",
               "example": "icon-hexagon-01"
             },
-            "_id": {
-              "type": "string",
-              "description": "Board's id",
-              "example": "648f22dda2d8f8537d580812"
-            },
-            "title": {
-              "type": "string",
-              "description": "Board's title",
-              "example": "New Board"
-            },
-            "currentBg": {
-              "type": "number",
-              "description": "Board's backgound color",
-              "example": "2"
-            },
+
             "owner": {
               "type": "object",
               "properties": {
@@ -1117,11 +1224,6 @@
         "type": "object",
         "required": ["title"],
         "properties": {
-          "_id": {
-            "type": "string",
-            "description": "Board's id",
-            "example": "984f22GGa2d8f8537d580812"
-          },
           "title": {
             "type": "string",
             "description": "Boards's title",
@@ -1132,6 +1234,7 @@
             "description": "Board's backgound color",
             "example": "2"
           },
+
           "icon": {
             "type": "string",
             "description": "Board's icon",
@@ -1152,6 +1255,11 @@
             "type": "string",
             "description": "Board's owner(user) id",
             "example": "648f22dda2d8f8537d580812"
+          },
+          "_id": {
+            "type": "string",
+            "description": "Board's id",
+            "example": "984f22GGa2d8f8537d580812"
           }
         }
       },
@@ -1280,59 +1388,48 @@
               "description": "Columns's owner(board) id",
               "example": "125f22dda2d8f8537d536948"
             },
-
-            "board": {
-              "type": "object",
-              "properties": {
-                "_id": {
-                  "type": "string",
-                  "description": "Columns's owner(board) id",
-                  "example": "125f22dda2d8f8537d536948"
-                },
-                "title": {
-                  "type": "string",
-                  "description": "Board's title",
-                  "example": "Andrew's board"
-                },
-                "currentBg": {
-                  "type": "number",
-                  "description": "Board's backgound color",
-                  "example": "2"
-                },
-
-                "owner": {
-                  "type": "object",
-                  "properties": {
-                    "_id": {
-                      "type": "string",
-                      "description": "Board's owner(user) id",
-                      "example": "648f22dda2d8f8537d582549"
-                    },
-                    "name": {
-                      "type": "string",
-                      "description": "Board's owner name",
-                      "example": "Andrew"
-                    },
-                    "email": {
-                      "type": "string",
-                      "description": "Board's owner email",
-                      "format": "email",
-                      "example": "Andrew@example.com"
-                    },
-                    "avatarURL": {
-                      "type": "string",
-                      "description": "Board's owner avatar URL",
-                      "example": "https://i.pinimg.com/originals/b7/34/e9/b734e9d303af5f13994c12d407862658.png"
-                    },
-                    "theme": {
-                      "type": "string",
-                      "description": "Board's theme",
-                      "example": "dark"
-                    }
+            "tasks": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "_id": {
+                    "type": "string",
+                    "description": "Task's id",
+                    "example": "648f22dda2d8f8537d580812"
+                  },
+                  "title": {
+                    "type": "string",
+                    "description": "Task's title",
+                    "example": "New Task"
+                  },
+                  "parentColumn": {
+                    "type": "string",
+                    "description": "Task's owner(column) id",
+                    "example": "125f22dda2d8f8537d536948"
+                  },
+                  "description": {
+                    "type": "string",
+                    "description": "Task's description",
+                    "example": "My task's description"
+                  },
+                  "priority": {
+                    "type": "string",
+                    "description": "Task's priority",
+                    "default": "medium",
+                    "example": "low"
+                  },
+                  "deadline": {
+                    "type": "string",
+                    "format": "date",
+                    "description": "Task's deadline",
+                    "example": "01-01-1970"
                   }
                 }
               }
             }
+
+            
           }
         }
       },
@@ -1370,41 +1467,9 @@
             "type": "string",
             "description": "Columns's owner(board) id",
             "example": "125f22dda2d8f8537d536948"
-          },
-
-          "board": {
-            "type": "object",
-            "properties": {
-              "icon": {
-                "type": "number",
-                "description": "Board's icon",
-                "default": null,
-                "example": "1"
-              },
-
-              "_id": {
-                "type": "string",
-                "description": "Columns's owner(board) id",
-                "example": "125f22dda2d8f8537d536948"
-              },
-              "title": {
-                "type": "string",
-                "description": "Board's title",
-                "example": "Andrew's board"
-              },
-              "currentBg": {
-                "type": "number",
-                "description": "Board's backgound color",
-                "default": null,
-                "example": "2"
-              },
-              "owner": {
-                "type": "string",
-                "description": "Board's owner(user) id",
-                "example": "549f22dda2d8f8537d511111"
-              }
-            }
           }
+
+          
         }
       },
       "EditColumnRequest": {
@@ -1413,7 +1478,7 @@
           "title": {
             "type": "string",
             "description": "New column's title",
-            "example": "New name column"
+            "example": "New column's name"
           }
         }
       },
@@ -1428,18 +1493,14 @@
           "title": {
             "type": "string",
             "description": "Column's new title",
-            "example": "New name column"
+            "example": "New column's name"
           },
           "parentBoard": {
             "type": "string",
             "description": "Columns's owner(board) id",
             "example": "125f22dda2d8f8537d536948"
-          },
-          "board": {
-            "type": "string",
-            "description": "Columns's owner(board) id",
-            "example": "125f22dda2d8f8537d536948"
           }
+          
         }
       },
 
@@ -1507,75 +1568,11 @@
               "description": "Task's description",
               "example": "My task's description"
             },
-
-            "column": {
-              "type": "object",
-              "properties": {
-                "_id": {
-                  "type": "string",
-                  "description": "Columns's id",
-                  "example": "125f22dda2d8f8537d536948"
-                },
-                "title": {
-                  "type": "string",
-                  "description": "Column's title",
-                  "example": "Andrew's column"
-                },
-
-                "board": {
-                  "type": "object",
-                  "properties": {
-                    "_id": {
-                      "type": "string",
-                      "description": "Board's id",
-                      "example": "478f22dda2d8f8537d11111"
-                    },
-                    "title": {
-                      "type": "string",
-                      "description": "Board's title",
-                      "example": "Andrew's board"
-                    },
-                    "currentBg": {
-                      "type": "number",
-                      "description": "Board's backgound color",
-                      "default": null,
-                      "example": "2"
-                    },
-
-                    "owner": {
-                      "type": "object",
-                      "properties": {
-                        "_id": {
-                          "type": "string",
-                          "description": "Board's owner(user) id",
-                          "example": "648f22dda2d8f8537d582549"
-                        },
-                        "name": {
-                          "type": "string",
-                          "description": "Board's owner name",
-                          "example": "Andrew"
-                        },
-                        "email": {
-                          "type": "string",
-                          "description": "Board's owner email",
-                          "format": "email",
-                          "example": "Andrew@example.com"
-                        },
-                        "avatarURL": {
-                          "type": "string",
-                          "description": "Board's owner avatar URL",
-                          "example": "https://i.pinimg.com/originals/b7/34/e9/b734e9d303af5f13994c12d407862658.png"
-                        },
-                        "theme": {
-                          "type": "string",
-                          "description": "Board's theme",
-                          "example": "dark"
-                        }
-                      }
-                    }
-                  }
-                }
-              }
+            "deadline": {
+              "type": "string",
+              "format": "date",
+              "description": "Task's deadline",
+              "example": "01-01-1970"
             }
           }
         }
@@ -1609,7 +1606,8 @@
           "deadline": {
             "type": "string",
             "format": "date",
-            "description": "Task's deadline"
+            "description": "Task's deadline",
+            "example": "01-01-1970"
           }
         }
       },
@@ -1640,42 +1638,23 @@
           "priority": {
             "type": "string",
             "description": "Task's priority",
-            "enum": ["without", "low", "medium", "high"],
             "default": "medium",
             "example": "low"
           },
-
-          "column": {
-            "type": "object",
-            "properties": {
-              "_id": {
-                "type": "string",
-                "description": "Task's owner(column) id",
-                "example": "125f22dda2d8f8537d536948"
-              },
-              "title": {
-                "type": "string",
-                "description": "Column's title",
-                "example": "Andrew's column"
-              },
-              "parentBoard": {
-                "type": "string",
-                "description": "Column's owner(board) id",
-                "example": "565f22dda2d8f8537d987456"
-              },
-              "board": {
-                "type": "string",
-                "description": "Column's owner(board) id",
-                "example": "565f22dda2d8f8537d987456"
-              }
-            }
+          "deadline": {
+            "type": "string",
+            "format": "date",
+            "description": "Task's deadline",
+            "example": "01-01-1970"
           }
+
+          
         }
       },
 
       "EditTaskRequest": {
         "type": "object",
-        "required": ["title", "description", "priority", "deadline"],
+        "required": ["title", "description", "priority", "deadline", "parentColumn"],
         "properties": {
           "title": {
             "type": "string",
@@ -1699,6 +1678,11 @@
             "format": "date",
             "description": "Task's deadline",
             "example": "01-01-1970"
+          },
+          "parentColumn": {
+            "type": "string",
+            "description": "Task's owner(column) id",
+            "example": "125f22dda2d8f8537d536948"
           }
         }
       },

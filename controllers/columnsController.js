@@ -1,6 +1,5 @@
 const Column = require('../models/column');
 const { controllerWrapper } = require('../decorators');
-// const Board = require('../models/board');
 const { HttpError } = require('../helpers');
 const Task = require('../models/task');
 
@@ -16,8 +15,8 @@ const getAllColumnsWithTasks = async (req, res) => {
     {
       $lookup: {
         from: 'tasks',
-        localField: 'parentColumn',
-        foreignField: '_id',
+        localField: '_id',
+        foreignField: 'parentColumn',
         as: 'tasks',
       },
     },

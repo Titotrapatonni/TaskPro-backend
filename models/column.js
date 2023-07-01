@@ -11,8 +11,6 @@ const columnSchema = new Schema(
       type: String,
       required: true,
     },
-    // board: { type: Schema.Types.ObjectId, ref: 'board' },
-    // owner: { type: Schema.Types.ObjectId, ref: "user" },
   },
   { versionKey: false }
 );

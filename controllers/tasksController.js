@@ -1,5 +1,4 @@
 const { controllerWrapper } = require('../decorators');
-// const Column = require('../models/column');
 const Task = require('../models/task');
 
 const { HttpError } = require('../helpers');

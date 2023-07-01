@@ -3,10 +3,33 @@ const { controllerWrapper } = require('../decorators');
 const Board = require('../models/board');
 const Column = require('../models/column');
 const Task = require('../models/task');
+const { default: mongoose } = require('mongoose');
 
 const getAllBoards = async (req, res) => {
   const { _id: owner } = req.user;
   const result = await Board.find({ owner }).populate('owner', '_id name email avatarURL theme');
+
+  res.json(result);
+};
+
+const getCurrentBoard = async (req, res) => {
+  const { parentBoard } = req.params;
+
+  const result = await Board.aggregate([
+    {
+      $match: {
+        _id: new mongoose.Types.ObjectId({ parentBoard }),
+      },
+    },
+    {
+      $lookup: {
+        from: 'columns',
+        localField: '_id',
+        foreignField: 'parentBoard',
+        as: 'columns',
+      },
+    },
+  ]);
 
   res.json(result);
 };
@@ -36,9 +59,9 @@ const deleteBoard = async (req, res) => {
   }
 
   const parentBoard = id;
-  const childrens = await Column.find({ parentBoard });
-  if (childrens.length > 0) {
-    childrens.forEach(async column => await Task.deleteMany({ parentColumn: column._id }));
+  const children = await Column.find({ parentBoard });
+  if (children.length > 0) {
+    children.forEach(async column => await Task.deleteMany({ parentColumn: column._id }));
     await Column.deleteMany({ parentBoard });
   }
 
@@ -50,4 +73,5 @@ module.exports = {
   addBoard: controllerWrapper(addBoard),
   deleteBoard: controllerWrapper(deleteBoard),
   editBoard: controllerWrapper(editBoard),
+  getCurrentBoard: controllerWrapper(getCurrentBoard),
 };

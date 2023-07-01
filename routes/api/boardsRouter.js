@@ -7,6 +7,8 @@ const router = express.Router();
 
 router.get('/', authenticate, boardsController.getAllBoards);
 
+router.get('/:id', authenticate, boardsController.getCurrentBoard);
+
 router.post('/', authenticate, validateBody(boardSchemas.addBoardSchema), boardsController.addBoard);
 
 router.put('/:id', authenticate, isValidId, validateBody(boardSchemas.editBoardSchema), boardsController.editBoard);

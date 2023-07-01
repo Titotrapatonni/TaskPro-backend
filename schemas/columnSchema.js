@@ -1,18 +1,15 @@
 const Joi = require('joi');
 
-const getAllSchema = Joi.object({
+// const getAllSchema = Joi.object({
 
-  parentBoard: Joi.string()
-    .required()
-    .length(24)
-    .messages({ 'any.required': 'missing required parentBoard id' }),
-});
+//   parentBoard: Joi.string()
+//     .required()
+//     .length(24)
+//     .messages({ 'any.required': 'missing required parentBoard id' }),
+// });
 
 const addSchema = Joi.object({
-  parentBoard: Joi.string()
-    .required()
-    .length(24)
-    .messages({ 'any.required': 'missing required parentBoard id' }),
+  parentBoard: Joi.string().required().length(24).messages({ 'any.required': 'missing required parentBoard id' }),
 
   title: Joi.string(),
 });
@@ -22,7 +19,7 @@ const editSchema = Joi.object({
 });
 
 const schemas = {
-  getAllSchema,
+  // getAllSchema,
   addSchema,
   editSchema,
 };

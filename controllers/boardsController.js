@@ -50,5 +50,4 @@ module.exports = {
   addBoard: controllerWrapper(addBoard),
   deleteBoard: controllerWrapper(deleteBoard),
   editBoard: controllerWrapper(editBoard),
-  // getCurrentBoard: controllerWrapper(getCurrentBoard),
 };

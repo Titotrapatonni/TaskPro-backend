@@ -1,13 +1,5 @@
 const Joi = require('joi');
 
-// const getAllSchema = Joi.object({
-
-//   parentBoard: Joi.string()
-//     .required()
-//     .length(24)
-//     .messages({ 'any.required': 'missing required parentBoard id' }),
-// });
-
 const addSchema = Joi.object({
   parentBoard: Joi.string().required().length(24).messages({ 'any.required': 'missing required parentBoard id' }),
 
@@ -19,7 +11,6 @@ const editSchema = Joi.object({
 });
 
 const schemas = {
-  // getAllSchema,
   addSchema,
   editSchema,
 };

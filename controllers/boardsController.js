@@ -20,11 +20,11 @@ const addBoard = async (req, res) => {
 
 const editBoard = async (req, res) => {
   const { id } = req.params;
-  const result = await Board.findByIdAndUpdate(id, req.body, { new: true });
+  const currentBg = req.body.currentBg;
+  const result = await Board.findByIdAndUpdate(id, { ...req.body, currentBg: currentBg || '' }, { new: true });
   if (!result) {
     throw HttpError(404, `Board with id: ${id} not found`);
   }
-
   res.status(201).json(result);
 };
 

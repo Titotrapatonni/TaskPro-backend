@@ -2,7 +2,7 @@ const Joi = require('joi');
 
 const addBoardSchema = Joi.object({
   title: Joi.string(),
-  currentBg: Joi.string(),
+  currentBg: Joi.string().allow('').optional(),
   icon: Joi.string()
     .valid(
       'icon-hexagon-01',

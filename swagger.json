@@ -4,6 +4,7 @@
     "version": "2.0.2",
     "title": "Task Pro API docs",
     "description": "**API documentation for Task Pro application.** <p>Цей проєкт є веб-додатком особистого кабінету, в якому є можливість створювати свої дошки з задачами. <p>*Головна мета проєкту* полягає в тому, щоб надати можливість користувачам швидко створювати план різних задач та відслідковувати їх виконання. У проєкті передбачено можливість реєстрації користувачів, їх аутентифікації та авторизації. Також, користувачі можуть створювати будь яку кількість дошок під різні цілі. В кожній дошці є можливість створювати колонки за категоріями для поділу робіт, та задачі, яким можна встановлювати рівень пріорітетності та термін дедлайну. Є можливість редагування та видалення. <p>**Функціональні можливості:** <p>- реєстрація та авторизація користувачів; <p>- зміна аватару користувача та теми додатку; <p>- додавання, видалення, коригування та зміна фону дошок користувача;<p>- за допомогою  колонок є можлівість поділу задач на категорії;<p>- додавання, видалення, зміна пріоритетності та терміну дедлайну в задачах. <p>**Стек технологій, що використовується у проєкті:** <p>Node.js - середовище виконання JavaScript на сервері. <p>Express.js - фреймворк для розробки веб-додатків на Node.js. <p>MongoDB - NoSQL база даних. <p>Mongoose - бібліотека для роботи з MongoDB у Node.js. ",
+
     "contact": {
       "name": "Code Ninjas",
       "url": "https://github.com/Titotrapatonni/TaskPro-backend"
@@ -47,17 +48,10 @@
         "tags": ["Auth"],
         "summary": "User Google registration",
         "parameters": [],
-        
+
         "responses": {
-          "201": {
-            "description": "Successful operation",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AuthResponse"
-                }
-              }
-            }
+          "200": {
+            "description": "OK (Successful operation (redirect to front-end with access Token in query). Then use GET /user)"
           },
           "400": {
             "description": "Bad request",
@@ -70,6 +64,7 @@
         }
       }
     },
+
     "/users/register": {
       "post": {
         "tags": ["Auth"],
@@ -287,7 +282,6 @@
             "description": "Not authorized",
             "content": {}
           }
-          
         }
       }
     },
@@ -393,7 +387,15 @@
       "put": {
         "tags": ["Boards"],
         "summary": "Edit board by id",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of board to update",
+            "required": true,
+            "type": "string"
+          }
+        ],
         "requestBody": {
           "description": "Board's object",
           "required": true,
@@ -436,8 +438,16 @@
       },
       "delete": {
         "tags": ["Boards"],
-        "summary": "Delete board",
-        "parameters": [],
+        "summary": "Delete board by id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of board to delete",
+            "required": true,
+            "type": "string"
+          }
+        ],
         "security": [{ "Bearer": [] }],
 
         "responses": {
@@ -472,8 +482,16 @@
       "get": {
         "tags": ["Columns"],
         "summary": "Get all board's columns",
-        "parameters": [],
-        
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of parent board",
+            "required": true,
+            "type": "string"
+          }
+        ],
+
         "security": [{ "Bearer": [] }],
 
         "responses": {
@@ -493,12 +511,9 @@
           }
         }
       }
-      
-      
     },
 
     "/api/columns/": {
-      
       "post": {
         "tags": ["Columns"],
         "summary": "Add column",
@@ -535,11 +550,18 @@
       }
     },
     "/api/columns/{id}": {
-      
       "patch": {
         "tags": ["Columns"],
         "summary": "Edit column by id",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of column to edit",
+            "required": true,
+            "type": "string"
+          }
+        ],
         "requestBody": {
           "description": "Column's object",
           "required": true,
@@ -578,8 +600,16 @@
       },
       "delete": {
         "tags": ["Columns"],
-        "summary": "Delete column",
-        "parameters": [],
+        "summary": "Delete column by id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of column to delete",
+            "required": true,
+            "type": "string"
+          }
+        ],
         "security": [{ "Bearer": [] }],
 
         "responses": {
@@ -615,8 +645,16 @@
       "get": {
         "tags": ["Tasks"],
         "summary": "Get all column's tasks",
-        "parameters": [],
-       
+        "parameters": [
+          {
+            "name": "parentColumn",
+            "in": "path",
+            "description": "ID of parent column",
+            "required": true,
+            "type": "string"
+          }
+        ],
+
         "security": [{ "Bearer": [] }],
 
         "responses": {
@@ -636,9 +674,8 @@
           }
         }
       }
-
-      },
-      "/api/tasks/":{
+    },
+    "/api/tasks/": {
       "post": {
         "tags": ["Tasks"],
         "summary": "Add task",
@@ -679,7 +716,15 @@
       "put": {
         "tags": ["Tasks"],
         "summary": "Edit task by id",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of task to edit",
+            "required": true,
+            "type": "string"
+          }
+        ],
         "requestBody": {
           "description": "Task's object",
           "required": true,
@@ -732,8 +777,16 @@
       },
       "delete": {
         "tags": ["Tasks"],
-        "summary": "Delete task",
-        "parameters": [],
+        "summary": "Delete task by id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of task to delete",
+            "required": true,
+            "type": "string"
+          }
+        ],
         "security": [{ "Bearer": [] }],
 
         "responses": {
@@ -897,7 +950,6 @@
         }
       },
 
-      
       "CurrentUserResponse": {
         "type": "object",
         "properties": {
@@ -975,7 +1027,6 @@
         }
       },
 
-      
       "UpdateProfileRequest": {
         "type": "object",
         "required": ["name", "email", "password"],
@@ -996,16 +1047,14 @@
             "description": "User's password",
             "example": "qwerty123"
           },
-           "avatarURL": {
+          "avatarURL": {
             "type": "string",
             "description": "User's avatar URL",
             "example": "https://i.pinimg.com/originals/b7/34/e9/b734e9d303af5f13994c12d407862658.png"
           }
-
         }
       },
 
-      
       "UpdateProfileResponse": {
         "type": "object",
 
@@ -1428,8 +1477,6 @@
                 }
               }
             }
-
-            
           }
         }
       },
@@ -1468,8 +1515,6 @@
             "description": "Columns's owner(board) id",
             "example": "125f22dda2d8f8537d536948"
           }
-
-          
         }
       },
       "EditColumnRequest": {
@@ -1500,7 +1545,6 @@
             "description": "Columns's owner(board) id",
             "example": "125f22dda2d8f8537d536948"
           }
-          
         }
       },
 
@@ -1647,8 +1691,6 @@
             "description": "Task's deadline",
             "example": "01-01-1970"
           }
-
-          
         }
       },
 

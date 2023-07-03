@@ -13,4 +13,16 @@ router.put('/:id', authenticate, isValidId, validateBody(boardSchemas.editBoardS
 
 router.delete('/:id', authenticate, isValidId, boardsController.deleteBoard);
 
+// ===-VR-===
+
+router.patch(
+  '/columnorder/:id',
+  authenticate,
+  isValidId,
+  validateBody(boardSchemas.editColumnOrderSchema),
+  boardsController.editColumnOrder
+);
+
+// ===-VR-===
+
 module.exports = router;

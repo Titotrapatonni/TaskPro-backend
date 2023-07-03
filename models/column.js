@@ -11,6 +11,9 @@ const columnSchema = new Schema(
       type: String,
       required: true,
     },
+    // ===-VR-===
+    taskOrder: { type: Array, default: [] },
+    // ===-VR-===
   },
   { versionKey: false }
 );

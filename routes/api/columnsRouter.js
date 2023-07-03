@@ -12,4 +12,16 @@ router.post('/', authenticate, validateBody(schemas.addSchema), columnsControlle
 router.patch('/:id', authenticate, isValidId, validateBody(schemas.editSchema), columnsController.editColumn);
 
 router.delete('/:id', authenticate, isValidId, columnsController.deleteColumn);
+
+// ===-VR-===
+
+router.patch(
+  '/taskorder/:id',
+  authenticate,
+  isValidId,
+  validateBody(schemas.editTaskOrderSchema),
+  columnsController.editTaskOrder
+);
+// ===-VR-===
+
 module.exports = router;

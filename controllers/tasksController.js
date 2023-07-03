@@ -62,10 +62,9 @@ const deleteTask = async (req, res) => {
   if (!task) {
     throw HttpError(404, 'Task not found');
   }
-  const qwe = await Column.findByIdAndUpdate(task.parentColumn, {
+  await Column.findByIdAndUpdate(task.parentColumn, {
     $pull: { taskOrder: task._id },
   });
-  console.log(qwe);
   // ===-VR-===
 
   const result = await Task.findByIdAndDelete(id);

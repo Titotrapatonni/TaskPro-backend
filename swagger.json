@@ -1,5 +1,5 @@
 {
-  "openapi": "3.0.1",
+  "openapi": "3.0.3",
   "info": {
     "version": "2.0.2",
     "title": "Task Pro API docs",
@@ -166,7 +166,7 @@
         "tags": ["Auth"],
         "summary": "Get current user",
         "parameters": [],
-        "security": [{ "Bearer": [] }],
+        "security": [{ "bearerAuth": [] }],
 
         "responses": {
           "200": {
@@ -191,7 +191,7 @@
         "tags": ["Auth"],
         "summary": "Logout user",
         "parameters": [],
-        "security": [{ "Bearer": [] }],
+        "security": [{ "bearerAuth": [] }],
 
         "responses": {
           "204": {
@@ -221,7 +221,7 @@
             }
           }
         },
-        "security": [{ "Bearer": [] }],
+        "security": [{ "bearerAuth": [] }],
 
         "responses": {
           "200": {
@@ -302,7 +302,7 @@
             }
           }
         },
-        "security": [{ "Bearer": [] }],
+        "security": [{ "bearerAuth": [] }],
 
         "responses": {
           "200": {
@@ -328,7 +328,7 @@
         "tags": ["Boards"],
         "summary": "Get all user's boards",
         "parameters": [],
-        "security": [{ "Bearer": [] }],
+        "security": [{ "bearerAuth": [] }],
 
         "responses": {
           "200": {
@@ -362,7 +362,7 @@
             }
           }
         },
-        "security": [{ "Bearer": [] }],
+        "security": [{ "bearerAuth": [] }],
 
         "responses": {
           "201": {
@@ -407,7 +407,7 @@
             }
           }
         },
-        "security": [{ "Bearer": [] }],
+        "security": [{ "bearerAuth": [] }],
 
         "responses": {
           "201": {
@@ -448,7 +448,102 @@
             "type": "string"
           }
         ],
-        "security": [{ "Bearer": [] }],
+        "security": [{ "bearerAuth": [] }],
+
+        "responses": {
+          "204": {
+            "description": "Successful removal of a board",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeleteBoardResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized",
+            "content": {}
+          },
+          "404": {
+            "description": "Board not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BoardNotFoundResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/boards/columnorder/{id}": {
+      "patch": {
+        "tags": ["Boards"],
+        "summary": "Edit order of columns in board",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of board to update",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "requestBody": {
+          "description": "Board's object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EditColumnOrderRequest"
+              }
+            }
+          }
+        },
+        "security": [{ "bearerAuth": [] }],
+
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EditBoardResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized",
+            "content": {}
+          },
+          "404": {
+            "description": "Board not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BoardNotFoundResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Boards"],
+        "summary": "Delete board by id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of board to delete",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "security": [{ "bearerAuth": [] }],
 
         "responses": {
           "204": {
@@ -492,7 +587,7 @@
           }
         ],
 
-        "security": [{ "Bearer": [] }],
+        "security": [{ "bearerAuth": [] }],
 
         "responses": {
           "200": {
@@ -529,7 +624,7 @@
             }
           }
         },
-        "security": [{ "Bearer": [] }],
+        "security": [{ "bearerAuth": [] }],
 
         "responses": {
           "201": {
@@ -573,7 +668,7 @@
             }
           }
         },
-        "security": [{ "Bearer": [] }],
+        "security": [{ "bearerAuth": [] }],
 
         "responses": {
           "201": {
@@ -610,7 +705,7 @@
             "type": "string"
           }
         ],
-        "security": [{ "Bearer": [] }],
+        "security": [{ "bearerAuth": [] }],
 
         "responses": {
           "204": {
@@ -655,7 +750,7 @@
           }
         ],
 
-        "security": [{ "Bearer": [] }],
+        "security": [{ "bearerAuth": [] }],
 
         "responses": {
           "200": {
@@ -691,7 +786,7 @@
             }
           }
         },
-        "security": [{ "Bearer": [] }],
+        "security": [{ "bearerAuth": [] }],
 
         "responses": {
           "201": {
@@ -736,7 +831,7 @@
             }
           }
         },
-        "security": [{ "Bearer": [] }],
+        "security": [{ "bearerAuth": [] }],
 
         "responses": {
           "201": {
@@ -787,7 +882,7 @@
             "type": "string"
           }
         ],
-        "security": [{ "Bearer": [] }],
+        "security": [{ "bearerAuth": [] }],
 
         "responses": {
           "204": {
@@ -824,7 +919,7 @@
         "summary": "Get board's backgrounds",
         "parameters": [],
 
-        "security": [{ "Bearer": [] }],
+        "security": [{ "bearerAuth": [] }],
 
         "responses": {
           "200": {
@@ -861,7 +956,7 @@
             }
           }
         },
-        "security": [{ "Bearer": [] }],
+        "security": [{ "bearerAuth": [] }],
 
         "responses": {
           "200": {
@@ -889,6 +984,13 @@
     }
   },
   "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
     "schemas": {
       "RegistrationRequest": {
         "type": "object",
@@ -1171,6 +1273,10 @@
         "items": {
           "type": "object",
           "properties": {
+            "columnOrder": {
+              "type": "array",
+              "items": {}
+            },
             "_id": {
               "type": "string",
               "description": "Board's id",
@@ -1182,9 +1288,9 @@
               "example": "New Board"
             },
             "currentBg": {
-              "type": "number",
-              "description": "Board's backgound color",
-              "example": "2"
+              "type": "string",
+              "description": "Board's backgound color id",
+              "example": "64972a45fd234eee115a1774"
             },
             "icon": {
               "type": "number",
@@ -1247,9 +1353,9 @@
             "example": "New Board"
           },
           "currentBg": {
-            "type": "number",
-            "description": "Board's backgound color",
-            "example": "2"
+            "type": "string",
+            "description": "Board's backgound color id",
+            "example": "64972a45fd234eee115a1774"
           },
           "icon": {
             "type": "string",
@@ -1279,9 +1385,9 @@
             "example": "New Board"
           },
           "currentBg": {
-            "type": "number",
-            "description": "Board's backgound color",
-            "example": "2"
+            "type": "string",
+            "description": "Board's backgound color id",
+            "example": "64972a45fd234eee115a1774"
           },
 
           "icon": {
@@ -1321,9 +1427,9 @@
             "example": "New name board"
           },
           "currentBg": {
-            "type": "number",
-            "description": "New board's backgound color",
-            "example": "2"
+            "type": "string",
+            "description": "New board's backgound color id",
+            "example": "64972a45fd234eee115a1774"
           },
           "icon": {
             "type": "string",
@@ -1373,9 +1479,9 @@
             "example": "New Board"
           },
           "currentBg": {
-            "type": "number",
-            "description": "Board's backgound color",
-            "example": "2"
+            "type": "string",
+            "description": "Board's backgound color id",
+            "example": "64972a45fd234eee115a1774"
           },
           "owner": {
             "type": "string",
@@ -1404,6 +1510,21 @@
             "example": "Board with id: 648f22dda2d8f8537d580812 not found"
           }
         }
+      },
+
+      "EditColumnOrderRequest": {
+        "type": "array",
+        "items": {
+          "properties": {
+            "columnOrder": {
+              "type": "string",
+              "description": "Column's id",
+              "example": "648f22dda2d8f8537d580812",
+              "default": "[]"
+            }
+          }
+        },
+        "example": ["648f22dda2d8f8537d580812", "524f22dda2d8f8537d598561"]
       },
 
       "GetAllColumnsRequest": {
@@ -1830,14 +1951,6 @@
               "example": "https://res.cloudinary.com/dof7bcg6j/image/upload/v1687942226/DesktopFonts/PRreviewFonts/Vector13_ilcfaz.png"
             }
           }
-        }
-      },
-
-      "securitySchemes": {
-        "Bearer": {
-          "type": "http",
-          "scheme": "bearer",
-          "bearerFormat": "JWT"
         }
       }
     }

@@ -1,10 +1,10 @@
-const nodemailer = require("nodemailer");
+const nodemailer = require('nodemailer');
 
 const { UKR_NET_PASSWORD, UKR_NET_EMAIL } = process.env;
 
 const configOptions = {
-  host: "smtp.ukr.net",
-  port: 465,
+  host: 'smtp.ukr.net',
+  port: 2525,
   secure: true,
   auth: {
     user: UKR_NET_EMAIL,
@@ -14,7 +14,7 @@ const configOptions = {
 
 const transport = nodemailer.createTransport(configOptions);
 
-const sendEmail = async (data) => {
+const sendEmail = async data => {
   const email = { ...data, from: UKR_NET_EMAIL };
   await transport.sendMail(email);
   return true;

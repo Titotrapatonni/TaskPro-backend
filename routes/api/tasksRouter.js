@@ -12,5 +12,8 @@ router.get('/:id', isValidId, tasksController.getAllTasks);
 router.post('/', validateBody(schemas.addSchema), tasksController.addTask);
 router.put('/:id', emptyBodyError, validateBody(schemas.editTaskSchema), tasksController.updateTask);
 router.delete('/:id', tasksController.deleteTask);
+// ===-VR-===
+router.patch('/movetask/:id', authenticate, isValidId, validateBody(schemas.moveTaskSchema), tasksController.moveTask);
+// ===-VR-===
 
 module.exports = router;

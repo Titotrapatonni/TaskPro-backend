@@ -8,6 +8,9 @@ const boardSchema = new Schema(
       default: 'New Board',
     },
     currentBg: { type: String, default: '' },
+    // ===-VR-===
+    columnOrder: { type: Array, default: [] },
+    // ===-VR-===
     icon: {
       type: String,
       enum: [

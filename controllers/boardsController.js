@@ -44,9 +44,23 @@ const deleteBoard = async (req, res) => {
   res.status(204).json({ message: `Board with id: ${id} deleted` });
 };
 
+// ===-VR-===
+const editColumnOrder = async (req, res) => {
+  const { id } = req.params;
+  const result = await Board.findByIdAndUpdate(id, req.body, { new: true });
+  if (!result) {
+    throw HttpError(404, `Board with id: ${id} not found`);
+  }
+  res.status(201).json(result);
+};
+// ===-VR-===
+
 module.exports = {
   getAllBoards: controllerWrapper(getAllBoards),
   addBoard: controllerWrapper(addBoard),
   deleteBoard: controllerWrapper(deleteBoard),
   editBoard: controllerWrapper(editBoard),
+  // ===-VR-===
+  editColumnOrder: controllerWrapper(editColumnOrder),
+  // ===-VR-===
 };

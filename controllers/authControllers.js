@@ -94,13 +94,20 @@ const avatarsCloud = async (req, res) => {
   const fileStr = req.file.path;
   const upload = await cloudinary.v2.uploader.upload(fileStr, {
     upload_preset: 'avatars',
+    transformation:[
+      { width: 68, height: 68, crop: 'fill' }]
   });
   const avatarURL = upload.secure_url;
+  const { _id } = req.user;
+  const user = await User.findById(_id);
+  user.avatarURL = avatarURL;
+  await user.save();
+
   return res.json({
     success: true,
     avatarURL,
   });
-};
+}; 
 
 const updateProfile = async (req, res) => {
   const { _id } = req.user;

@@ -14,8 +14,16 @@ cloudinary.config({
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   Location: 'avatars',
-  upload_preset: 'avatars',
   allowedFormats: ['jpg', 'png'],
+  params: {
+    upload_preset: 'avatars',
+    transformation:[
+      {width: 68,
+        height: 68,
+        crop: 'fill',
+        quality: 'auto:low'}
+    ]
+  },
   filename: (req, file, cb) => {
     cb(null, file.originalname);
   },

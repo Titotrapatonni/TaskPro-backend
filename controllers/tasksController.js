@@ -53,6 +53,15 @@ const updateTask = async (req, res) => {
   res.status(201).json(result);
 };
 
+const changeParentColumn = async (req, res) => {
+  const { id } = req.params;
+  const result = await Task.findByIdAndUpdate(id, req.body, { new: true });
+  if (!result) {
+    throw HttpError(404, `Task with id: ${id} not found`);
+  }
+  res.status(201).json(result);
+};
+
 const deleteTask = async (req, res) => {
   const { id } = req.params;
 
@@ -96,6 +105,7 @@ module.exports = {
   getAllTasks: controllerWrapper(getAllTasks),
   addTask: controllerWrapper(addTask),
   updateTask: controllerWrapper(updateTask),
+  changeParentColumn: controllerWrapper(changeParentColumn),
   deleteTask: controllerWrapper(deleteTask),
   // ===-VR-===
   moveTask: controllerWrapper(moveTask),

@@ -234,6 +234,16 @@
               }
             }
           },
+          "400": {
+            "description": "Missing fields",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestResponse"
+                }
+              }
+            }
+          },
           "401": {
             "description": "Not authorized",
             "content": {}
@@ -382,11 +392,10 @@
         }
       }
     },
-
-    "/api/boards/{id}": {
-      "put": {
+    "/api/boards/{id}/currentBg": {
+      "patch": {
         "tags": ["Boards"],
-        "summary": "Edit board by id",
+        "summary": "Edit board's background",
         "parameters": [
           {
             "name": "id",
@@ -402,7 +411,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/EditBoardRequest"
+                "$ref": "#/components/schemas/EditBoardBgRequest"
               }
             }
           }
@@ -420,43 +429,12 @@
               }
             }
           },
-          "401": {
-            "description": "Not authorized",
-            "content": {}
-          },
-          "404": {
-            "description": "Board not found",
+          "400": {
+            "description": "Not valid id",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/BoardNotFoundResponse"
-                }
-              }
-            }
-          }
-        }
-      },
-      "delete": {
-        "tags": ["Boards"],
-        "summary": "Delete board by id",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "ID of board to delete",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "security": [{ "bearerAuth": [] }],
-
-        "responses": {
-          "204": {
-            "description": "Successful removal of a board",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/DeleteBoardResponse"
+                  "$ref": "#/components/schemas/NotValidIdResponse"
                 }
               }
             }
@@ -515,6 +493,81 @@
               }
             }
           },
+          "400": {
+            "description": "Not valid id",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotValidIdResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized",
+            "content": {}
+          },
+          "404": {
+            "description": "Board not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BoardNotFoundResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "/api/boards/{id}": {
+      "put": {
+        "tags": ["Boards"],
+        "summary": "Edit board by id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of board to update",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "requestBody": {
+          "description": "Board's object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EditBoardRequest"
+              }
+            }
+          }
+        },
+        "security": [{ "bearerAuth": [] }],
+
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EditBoardResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing fields",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestResponse"
+                }
+              }
+            }
+          },
           "401": {
             "description": "Not authorized",
             "content": {}
@@ -573,6 +626,7 @@
         }
       }
     },
+
     "/api/columns/{parentBoard's_id}": {
       "get": {
         "tags": ["Columns"],
@@ -596,6 +650,16 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/GetAllColumnsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Not valid id",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotValidIdResponse"
                 }
               }
             }
@@ -633,6 +697,16 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AddColumnResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing fields",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestResponse"
                 }
               }
             }
@@ -681,6 +755,16 @@
               }
             }
           },
+          "400": {
+            "description": "Not valid id",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotValidIdResponse"
+                }
+              }
+            }
+          },
           "404": {
             "description": "Column not found",
             "content": {
@@ -718,9 +802,79 @@
               }
             }
           },
+          "400": {
+            "description": "Not valid id",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotValidIdResponse"
+                }
+              }
+            }
+          },
           "401": {
             "description": "Not authorized",
             "content": {}
+          },
+          "404": {
+            "description": "Column not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ColumnNotFoundResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/columns/taskorder/{id}": {
+      "patch": {
+        "tags": ["Columns"],
+        "summary": "Edit order of tasks in column",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of column to edit",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "requestBody": {
+          "description": "Column's object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EditTaskOrderRequest"
+              }
+            }
+          }
+        },
+        "security": [{ "bearerAuth": [] }],
+
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EditColumnResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Not valid id",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotValidIdResponse"
+                }
+              }
+            }
           },
           "404": {
             "description": "Column not found",
@@ -763,6 +917,16 @@
               }
             }
           },
+          "400": {
+            "description": "Not valid id",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotValidIdResponse"
+                }
+              }
+            }
+          },
           "401": {
             "description": "Not authorized",
             "content": {}
@@ -799,9 +963,83 @@
               }
             }
           },
+          "400": {
+            "description": "Missing fields",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestResponse"
+                }
+              }
+            }
+          },
           "401": {
             "description": "Not authorized",
             "content": {}
+          }
+        }
+      }
+    },
+    "/api/tasks/{id}/parentColumn": {
+      "patch": {
+        "tags": ["Tasks"],
+        "summary": "Change task's parent column",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of task to edit",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "requestBody": {
+          "description": "Task's object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChangeTaskColumnRequest"
+              }
+            }
+          }
+        },
+        "security": [{ "bearerAuth": [] }],
+
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EditTaskResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing fields",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized",
+            "content": {}
+          },
+          "404": {
+            "description": "Task not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaskNotFoundResponse"
+                }
+              }
+            }
           }
         }
       }
@@ -1483,6 +1721,17 @@
             "description": "Board's backgound color id",
             "example": "64972a45fd234eee115a1774"
           },
+          "columnOrder": {
+            "type": "array",
+            "items": {
+              "_id": {
+                "type": "string",
+                "description": "Column's id",
+                "default": "[]"
+              }
+            },
+            "example": ["648f22dda2d8f8537d580812", "524f22dda2d8f8537d598561"]
+          },
           "owner": {
             "type": "string",
             "description": "Board's owner(user) id",
@@ -1501,6 +1750,17 @@
         }
       },
 
+      "NotValidIdResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Not valid id",
+            "example": "648f22dda2d8f8537d580812 is not valid id"
+          }
+        }
+      },
+
       "BoardNotFoundResponse": {
         "type": "object",
         "properties": {
@@ -1512,19 +1772,30 @@
         }
       },
 
+      "EditBoardBgRequest": {
+        "type": "object",
+        "properties": {
+          "currentBg": {
+            "type": "string",
+            "description": "New board's backgound color id",
+            "example": "64972a45fd234eee115a1774"
+          }
+        }
+      },
+
       "EditColumnOrderRequest": {
-        "type": "array",
-        "items": {
-          "properties": {
-            "columnOrder": {
+        "type": "object",
+        "properties": {
+          "columnOrder": {
+            "type": "array",
+            "items": {
               "type": "string",
               "description": "Column's id",
-              "example": "648f22dda2d8f8537d580812",
               "default": "[]"
-            }
+            },
+            "example": ["648f22dda2d8f8537d580812", "524f22dda2d8f8537d598561"]
           }
-        },
-        "example": ["648f22dda2d8f8537d580812", "524f22dda2d8f8537d598561"]
+        }
       },
 
       "GetAllColumnsRequest": {
@@ -1665,6 +1936,17 @@
             "type": "string",
             "description": "Columns's owner(board) id",
             "example": "125f22dda2d8f8537d536948"
+          },
+          "taskOrder": {
+            "type": "array",
+            "items": {
+              "_id": {
+                "type": "string",
+                "description": "Column's id",
+                "default": "[]"
+              }
+            },
+            "example": ["648f22dda2d8f8537d580812", "524f22dda2d8f8537d598561"]
           }
         }
       },
@@ -1675,7 +1957,22 @@
           "message": {
             "type": "string",
             "description": "Column not found",
-            "example": "Column not found"
+            "example": "Column with id: 648f22dda2d8f8537d580812 not found"
+          }
+        }
+      },
+
+      "EditTaskOrderRequest": {
+        "type": "object",
+        "properties": {
+          "taskOrder": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "description": "Task's id",
+              "default": "[]"
+            },
+            "example": ["648f22dda2d8f8537d580812", "524f22dda2d8f8537d598561"]
           }
         }
       },
@@ -1850,6 +2147,18 @@
         }
       },
 
+      "ChangeTaskColumnRequest": {
+        "type": "object",
+        "required": ["parentColumn"],
+        "properties": {
+          "parentColumn": {
+            "type": "string",
+            "description": "Task's owner(column) id",
+            "example": "125f22dda2d8f8537d536948"
+          }
+        }
+      },
+
       "EditTaskResponse": {
         "type": "object",
         "properties": {
@@ -1880,11 +2189,7 @@
             "default": "medium",
             "example": "low"
           },
-          "column": {
-            "type": "string",
-            "description": "Task's owner(column) id",
-            "example": "125f22dda2d8f8537d536948"
-          },
+
           "deadline": {
             "type": "string",
             "format": "date",
@@ -1899,7 +2204,7 @@
           "message": {
             "type": "string",
             "description": "Task not found",
-            "example": "Task not found"
+            "example": "Task with id: 648f22dda2d8f8537d580812 not found"
           }
         }
       },

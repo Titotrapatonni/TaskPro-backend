@@ -22,6 +22,10 @@ const editTaskSchema = Joi.object({
   parentColumn: Joi.string().required(),
 });
 
+const changeParentColumnSchema = Joi.object({
+  parentColumn: Joi.string().required().length(24).messages({ 'any.required': 'missing required parentColumn field' }),
+});
+
 // ===-VR-===
 const moveTaskSchema = Joi.object({
   columnSourceOrder: Joi.object().required().messages({ 'any.required': 'missing required columnSourceOrder' }),
@@ -34,6 +38,7 @@ const moveTaskSchema = Joi.object({
 const schemas = {
   addSchema,
   editTaskSchema,
+  changeParentColumnSchema,
   // ===-VR-===
   moveTaskSchema,
   // ===-VR-===

@@ -29,7 +29,6 @@ const editBoard = async (req, res) => {
 
 const editBackground = async (req, res) => {
   const { id } = req.params;
-  console.log(req.body);
   const result = await Board.findByIdAndUpdate(id, req.body, { new: true });
   if (!result) {
     throw HttpError(404, `Board with id: ${id} not found`);

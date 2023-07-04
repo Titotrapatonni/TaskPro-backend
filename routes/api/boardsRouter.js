@@ -11,6 +11,14 @@ router.post('/', authenticate, validateBody(boardSchemas.addBoardSchema), boards
 
 router.put('/:id', authenticate, isValidId, validateBody(boardSchemas.editBoardSchema), boardsController.editBoard);
 
+router.patch(
+  '/:id/currentBg',
+  authenticate,
+  isValidId,
+  validateBody(boardSchemas.editBackgroundSchema),
+  boardsController.editBoard
+);
+
 router.delete('/:id', authenticate, isValidId, boardsController.deleteBoard);
 
 // ===-VR-===

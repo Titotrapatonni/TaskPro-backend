@@ -48,6 +48,10 @@ const editBoardSchema = Joi.object({
     }),
 });
 
+const editBackgroundSchema = Joi.object({
+  currentBg: Joi.string().allow('').required(),
+});
+
 // ===-VR-===
 const editColumnOrderSchema = Joi.object({
   columnOrder: Joi.array().required().messages({ 'any.required': 'missing required Column order' }),
@@ -57,6 +61,7 @@ const editColumnOrderSchema = Joi.object({
 const boardSchemas = {
   addBoardSchema,
   editBoardSchema,
+  editBackgroundSchema,
   // ===-VR-===
   editColumnOrderSchema,
   // ===-VR-===

@@ -456,70 +456,6 @@
         }
       }
     },
-    "/api/boards/columnorder/{id}": {
-      "patch": {
-        "tags": ["Boards"],
-        "summary": "Edit order of columns in board",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "ID of board to update",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "requestBody": {
-          "description": "Board's object",
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/EditColumnOrderRequest"
-              }
-            }
-          }
-        },
-        "security": [{ "bearerAuth": [] }],
-
-        "responses": {
-          "201": {
-            "description": "Created",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/EditBoardResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Not valid id",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/NotValidIdResponse"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Not authorized",
-            "content": {}
-          },
-          "404": {
-            "description": "Board not found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/BoardNotFoundResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
 
     "/api/boards/{id}": {
       "put": {
@@ -605,6 +541,70 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/DeleteBoardResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized",
+            "content": {}
+          },
+          "404": {
+            "description": "Board not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BoardNotFoundResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/boards/columnorder/{id}": {
+      "patch": {
+        "tags": ["Boards"],
+        "summary": "Edit order of columns in board",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of board to update",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "requestBody": {
+          "description": "Board's object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EditColumnOrderRequest"
+              }
+            }
+          }
+        },
+        "security": [{ "bearerAuth": [] }],
+
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EditBoardResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Not valid id",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotValidIdResponse"
                 }
               }
             }
@@ -1149,6 +1149,63 @@
           }
         }
       }
+    },
+    "/api/tasks/movetask/{id}": {
+      "patch": {
+        "tags": ["Tasks"],
+        "summary": "Move tasks between columns",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of task to move",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "requestBody": {
+          "description": "Object with column source id and column destination id",
+          "required": true,
+          
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MoveTaskRequest"
+              }
+            }
+          }
+        },
+        "security": [{ "bearerAuth": [] }],
+
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MoveTaskResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Not valid id",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotValidIdResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized",
+            "content": {}
+          }
+          
+        }
+      }
+      
     },
 
     "/api/backgrounds": {
@@ -2215,8 +2272,66 @@
           "message": {
             "type": "string",
             "description": "Successful removal of a task",
-            "example": "task deleted"
+            "example": "Task with id: 648f22dda2d8f8537d580812 deleted"
           }
+        }
+      },
+
+     
+      
+      "MoveTaskRequest": {
+        "type": "object",
+        "required": ["columnSourceOrder", "columnDestinationOrder"],
+        "properties": {
+          "columnSourceOrder": {
+            "type": "object",
+            "description": "Column source id",
+            "properties": {
+              "_id": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "description": "Task's id array",
+                  "default": "[]"
+                }
+              }
+            },
+            "example": { "956f22dda2d8f8537d542856": ["648f22dda2d8f8537d580812", "524f22dda2d8f8537d598561"] }
+          },
+          "columnDestinationOrder": {
+            "type": "object",
+            "description": "Column destination id",
+            "properties": {
+              "_id": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "description": "Task's id array",
+                  "default": "[]"
+                }
+              }
+            },
+            "example": { "124f22dda2d8f8537d649752": ["648f22dda2d8f8537d580812", "524f22dda2d8f8537d598561"] }
+          }
+        }
+      },
+      
+      
+   
+      
+      "MoveTaskResponse": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "Task's id",
+            "example": "648f22dda2d8f8537d580812"
+          },          
+          "parentColumn": {
+            "type": "string",
+            "description": "New task's owner(column) id",
+            "example": "124f22dda2d8f8537d649752"
+          }                    
         }
       },
 

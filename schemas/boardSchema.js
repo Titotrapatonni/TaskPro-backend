@@ -3,9 +3,7 @@ const Joi = require('joi');
 const addBoardSchema = Joi.object({
   title: Joi.string(),
   currentBg: Joi.string().allow('').optional(),
-  // ===-VR-===
   columnOrder: Joi.array(),
-  // ===-VR-===
   icon: Joi.string()
     .valid(
       'icon-hexagon-01',
@@ -26,9 +24,7 @@ const addBoardSchema = Joi.object({
 const editBoardSchema = Joi.object({
   title: Joi.string().required().messages({ 'any.required': 'missing required Board title' }),
   currentBg: Joi.string().allow('').optional(),
-  // ===-VR-===
   columnOrder: Joi.array(),
-  // ===-VR-===
   icon: Joi.string()
     .required()
     .valid(
@@ -52,19 +48,15 @@ const editBackgroundSchema = Joi.object({
   currentBg: Joi.string().allow('').required(),
 });
 
-// ===-VR-===
 const editColumnOrderSchema = Joi.object({
   columnOrder: Joi.array().required().messages({ 'any.required': 'missing required Column order' }),
 });
-// ===-VR-===
 
 const boardSchemas = {
   addBoardSchema,
   editBoardSchema,
   editBackgroundSchema,
-  // ===-VR-===
   editColumnOrderSchema,
-  // ===-VR-===
 };
 
 module.exports = boardSchemas;

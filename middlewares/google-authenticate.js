@@ -15,13 +15,13 @@ const googleParams = {
 
 const googleCallback = async (req, accessToken, callback, refreshToken, profile, done) => {
   try {
-    const { email, displayName } = profile;
+    const { email, displayName, avatarUrl } = profile;
     const user = await User.findOne({ email });
     if (user) {
       return done(null, user);
     }
     const password = await bcrypt.hash(nanoid(), 10);
-    const newUser = await User.create({ email, password, name: displayName });
+    const newUser = await User.create({ email, password, name: displayName, avatarURL: avatarUrl });
     done(null, newUser);
   } catch (error) {
     done(error, false);

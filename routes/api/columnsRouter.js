@@ -5,23 +5,16 @@ const schemas = require('../../schemas/columnSchema');
 
 const router = express.Router();
 
-router.get('/:id', authenticate, isValidId, columnsController.getAllColumnsWithTasks);
+router.use(authenticate);
 
-router.post('/', authenticate, validateBody(schemas.addSchema), columnsController.addColumn);
+router.get('/:id', isValidId, columnsController.getAllColumnsWithTasks);
 
-router.patch('/:id', authenticate, isValidId, validateBody(schemas.editSchema), columnsController.editColumn);
+router.post('/', validateBody(schemas.addSchema), columnsController.addColumn);
 
-router.delete('/:id', authenticate, isValidId, columnsController.deleteColumn);
+router.patch('/:id', isValidId, validateBody(schemas.editSchema), columnsController.editColumn);
 
-// ===-VR-===
+router.delete('/:id', isValidId, columnsController.deleteColumn);
 
-router.patch(
-  '/taskorder/:id',
-  authenticate,
-  isValidId,
-  validateBody(schemas.editTaskOrderSchema),
-  columnsController.editTaskOrder
-);
-// ===-VR-===
+router.patch('/taskorder/:id', isValidId, validateBody(schemas.editTaskOrderSchema), columnsController.editTaskOrder);
 
 module.exports = router;

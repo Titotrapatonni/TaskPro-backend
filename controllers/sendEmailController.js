@@ -1,12 +1,10 @@
-const { controllerWrapper } = require("../decorators");
-const { sendEmail } = require("../helpers");
-
+const { controllerWrapper } = require('../decorators');
+const { sendEmail } = require('../helpers');
 const { SUPPORT_EMAIL } = process.env;
 
 const sendEmailMessage = async (req, res, next) => {
   const { replyEmail, comment } = req.body;
   const { email: userEmail } = req.user;
-
   const verifyEmail = {
     to: SUPPORT_EMAIL,
     subject: `From ${userEmail}`,
@@ -19,11 +17,10 @@ const sendEmailMessage = async (req, res, next) => {
             </div>
         `,
   };
-
   await sendEmail(verifyEmail);
 
   res.status(200).json({
-    message: "Email sent",
+    message: 'Email sent',
   });
 };
 

@@ -1,7 +1,5 @@
-const controllerWrapper = require("./controllerWrapper");
-const emptyBodyError = require("./emptyBodyError");
+const controllerWrapper = require('./controllerWrapper');
 
 module.exports = {
   controllerWrapper,
-  emptyBodyError,
 };

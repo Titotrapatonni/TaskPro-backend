@@ -5,32 +5,23 @@ const { boardSchemas } = require('../../schemas');
 
 const router = express.Router();
 
-router.get('/', authenticate, boardsController.getAllBoards);
+router.use(authenticate);
 
-router.post('/', authenticate, validateBody(boardSchemas.addBoardSchema), boardsController.addBoard);
+router.get('/', boardsController.getAllBoards);
 
-router.put('/:id', authenticate, isValidId, validateBody(boardSchemas.editBoardSchema), boardsController.editBoard);
+router.post('/', validateBody(boardSchemas.addBoardSchema), boardsController.addBoard);
 
-router.patch(
-  '/:id/currentBg',
-  authenticate,
-  isValidId,
-  validateBody(boardSchemas.editBackgroundSchema),
-  boardsController.editBoard
-);
+router.put('/:id', isValidId, validateBody(boardSchemas.editBoardSchema), boardsController.editBoard);
 
-router.delete('/:id', authenticate, isValidId, boardsController.deleteBoard);
+router.patch('/:id/currentBg', isValidId, validateBody(boardSchemas.editBackgroundSchema), boardsController.editBoard);
 
-// ===-VR-===
+router.delete('/:id', isValidId, boardsController.deleteBoard);
 
 router.patch(
   '/columnorder/:id',
-  authenticate,
   isValidId,
   validateBody(boardSchemas.editColumnOrderSchema),
   boardsController.editColumnOrder
 );
-
-// ===-VR-===
 
 module.exports = router;

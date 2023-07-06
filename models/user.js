@@ -1,29 +1,29 @@
-const { Schema, model } = require("mongoose");
-const { handleMongooseError } = require("../helpers");
+const { Schema, model } = require('mongoose');
+const { handleMongooseError } = require('../helpers');
 
 const userSchema = new Schema(
   {
     name: {
       type: String,
-      default: "User",
+      default: 'User',
     },
     password: {
       type: String,
-      required: [true, "Password is required"],
+      required: [true, 'Password is required'],
     },
     email: {
       type: String,
-      required: [true, "Email is required"],
+      required: [true, 'Email is required'],
       unique: true,
     },
     avatarURL: {
       type: String,
-      default: "",
+      default: '',
     },
     theme: {
       type: String,
-      enum: ["light", "dark", "violet"],
-      default: "dark",
+      enum: ['light', 'dark', 'violet'],
+      default: 'dark',
     },
     token: {
       type: String,
@@ -33,8 +33,8 @@ const userSchema = new Schema(
   { versionKey: false }
 );
 
-userSchema.post("save", handleMongooseError);
+userSchema.post('save', handleMongooseError);
 
-const User = model("user", userSchema);
+const User = model('user', userSchema);
 
 module.exports = User;

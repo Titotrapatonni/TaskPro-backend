@@ -1,8 +1,8 @@
 const cloudinary = require('cloudinary').v2;
 const { CloudinaryStorage } = require('multer-storage-cloudinary');
 const multer = require('multer');
-
 require('dotenv').config();
+
 const { CLOUDINARY_NAME, CLOUDINARY_KEY, CLOUDINARY_SECRET } = process.env;
 
 cloudinary.config({
@@ -17,12 +17,7 @@ const storage = new CloudinaryStorage({
   allowedFormats: ['jpg', 'png'],
   params: {
     upload_preset: 'avatars',
-    transformation:[
-      {width: 68,
-        height: 68,
-        crop: 'fill',
-        quality: 'auto:low'}
-    ]
+    transformation: [{ width: 68, height: 68, crop: 'fill', quality: 'auto:low' }],
   },
   filename: (req, file, cb) => {
     cb(null, file.originalname);

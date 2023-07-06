@@ -9,9 +9,7 @@ const { SECRET_KEY, FRONTEND_URL } = process.env;
 
 const googleAuth = async (req, res) => {
   const { _id: id } = req.user;
-
   const payload = { id };
-
   const token = jwt.sign(payload, SECRET_KEY, { expiresIn: '24h' });
   await User.findByIdAndUpdate(id, { token });
 
@@ -26,10 +24,7 @@ const register = async (req, res) => {
   }
   const hashPassword = await bcrypt.hash(password, 10);
   const newUser = await User.create({ ...req.body, password: hashPassword });
-
-  const payload = {
-    id: newUser._id,
-  };
+  const payload = { id: newUser._id };
   const token = jwt.sign(payload, SECRET_KEY, { expiresIn: '24h' });
   await User.findByIdAndUpdate(newUser._id, { token });
 
@@ -87,6 +82,7 @@ const getCurrent = async (req, res) => {
 const logout = async (req, res) => {
   const { _id } = req.user;
   await User.findByIdAndUpdate(_id, { token: null });
+
   res.status(204).json();
 };
 
@@ -100,9 +96,8 @@ const avatarsCloud = async (req, res) => {
     width: 68,
     height: 68,
     crop: 'fill',
-    quality: 'auto:low'
+    quality: 'auto:low',
   });
-  console.log(transformedURL)
   const { _id } = req.user;
   const user = await User.findById(_id);
   user.avatarURL = transformedURL;
@@ -112,8 +107,7 @@ const avatarsCloud = async (req, res) => {
     success: true,
     avatarURL: transformedURL,
   });
-}; 
-
+};
 
 const updateProfile = async (req, res) => {
   const { _id } = req.user;
@@ -129,6 +123,7 @@ const updateProfile = async (req, res) => {
     avatarURL = req.file.path;
   }
   const result = await User.findByIdAndUpdate(_id, { ...req.body, avatarURL, password: hashPassword }, { new: true });
+
   res.status(201).json({
     token: result.token,
     user: {
